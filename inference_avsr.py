@@ -305,7 +305,8 @@ def inference_single_file(args, modelmodule):
             batch["video"] = video_tensor.squeeze(1)
     
     device = next(modelmodule.model.parameters()).device
-    target_dtype = torch.bfloat16 if next(modelmodule.model.parameters()).dtype == torch.bfloat16 else torch.float32
+    param_dtype = next(modelmodule.model.parameters()).dtype  # 모델이 쓰는 dtype 그대로
+    target_dtype = param_dtype
 
     for key in batch:
         if isinstance(batch[key], torch.Tensor):

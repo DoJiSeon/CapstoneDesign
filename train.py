@@ -8,7 +8,7 @@ from torch.nn.utils.rnn import pad_sequence
 
 # [수정 1] 기존 모듈 임포트 아래에 GRIDDataset 임포트 추가
 from utils.avg_checkpoints_original import ensemble_original
-from datamodule.data_module import DataModule_LLM
+from datamodule.data_module import DataModule_LLM, collate_LLM
 from datamodule.grid_dataset import GRIDDataset  # <--- 추가됨
 from models.lightning import ModelModule_LLM
 
@@ -36,12 +36,10 @@ class GRIDDataModule(LightningDataModule):
         super().__init__()
         self.args = args
         self.tokenizer = tokenizer
-        self.batch_size = 1 # 기본 배치 사이즈 (필요시 args에서 가져오도록 수정 가능)
+        self.batch_size = 1 # 기본 배치 1로 설정 (필요시 args.batch_size로 변경)
         self.num_workers = 4
 
     def setup(self, stage=None):
-        # GRIDDataset 인스턴스 생성
-        # args.grid_split_ratio, args.grid_max_train_samples 등을 활용
         if stage == 'fit' or stage is None:
             self.train_dataset = GRIDDataset(
                 root_dir=self.args.root_dir,
@@ -71,6 +69,7 @@ class GRIDDataModule(LightningDataModule):
             )
 
     def train_dataloader(self):
+        # collate_fn=self.collate_fn이 여기서 호출됩니다.
         return DataLoader(self.train_dataset, batch_size=self.batch_size, 
                           shuffle=True, num_workers=self.num_workers, collate_fn=self.collate_fn)
 
@@ -83,32 +82,15 @@ class GRIDDataModule(LightningDataModule):
                           shuffle=False, num_workers=self.num_workers, collate_fn=self.collate_fn)
 
     def collate_fn(self, batch):
-        # 배치 내의 텐서 길이를 맞추기 위한 패딩 처리
-        video_batch, audio_batch, text_batch = [], [], []
-        
-        for sample in batch:
-            if "video" in sample:
-                video_batch.append(sample["video"]) # (T, C, H, W)
-            if "audio" in sample:
-                audio_batch.append(sample["audio"]) # (T, 1)
-            text_batch.append(sample["tokens"])
-            
-        outputs = {"text": text_batch} # 모델이 'text' 키를 사용할 경우
-        outputs["labels"] = text_batch # 모델이 'labels' 키를 사용할 경우를 대비
+        # GRIDDataset이 반환하는 sample dict들 그대로 collate_LLM에 넘김
+        # sample 안에 "audio", "video", "tokens"가 이미 들어있으니까 그대로 사용 가능
+        return collate_LLM(
+            batch,
+            self.tokenizer,
+            self.args.modality,
+            is_trainval=True  # 학습/검증용
+        )    
 
-        # Video Padding
-        if video_batch:
-            # pad_sequence는 (T, ...) 형태의 텐서 리스트를 (Batch, T, ...)로 패딩해줌 (batch_first=True)
-            outputs["video"] = pad_sequence(video_batch, batch_first=True)
-            # 마스크가 필요하다면 여기서 생성
-            outputs["video_lengths"] = torch.tensor([v.size(0) for v in video_batch])
-
-        # Audio Padding
-        if audio_batch:
-            outputs["audio"] = pad_sequence(audio_batch, batch_first=True)
-            outputs["audio_lengths"] = torch.tensor([a.size(0) for a in audio_batch])
-            
-        return outputs
 
 def get_trainer(args):
     seed_everything(args.seed, workers=True)
@@ -118,12 +100,12 @@ def get_trainer(args):
         mode="max",
         save_last=False,
         filename="{epoch}",
-        save_top_k=args.num_check_save, 
+        save_top_k=1,
     )
     lr_monitor = LearningRateMonitor(logging_interval="step")
     callbacks = [checkpoint, lr_monitor]
 
-    find_unused_parameters_flag = False if args.modality == 'audio' else True
+    find_unused_parameters_flag = False
 
     return Trainer(
         precision='bf16-true',
@@ -140,6 +122,7 @@ def get_trainer(args):
         logger=WandbLogger(name=args.exp_name, project=args.project_wandb),
         gradient_clip_val=10.0,
         val_check_interval=args.val_check_interval,
+        accumulate_grad_batches=args.accumulate_grad_batches,
     )
 
 def get_test_trainer(args):
@@ -233,6 +216,12 @@ def parse_args():
     parser.add_argument("--decode-snr-target", type=float, default=999999)
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--auto-test", type=str2bool, nargs="?", const=True, default=True)
+    parser.add_argument("--accumulate-grad-batches", type=int, default=1)
+    # UADF 관련 옵션 추가
+    parser.add_argument("--use-uadf", action="store_true", help="UADF 사용 여부")
+    parser.add_argument("--uadf-fusion-method", type=str, default="uncertainty", choices=["uncertainty", "attention"])
+    parser.add_argument("--uadf-temperature", type=float, default=1.0)
+    
     return parser.parse_args()
 
 def cli_main():
