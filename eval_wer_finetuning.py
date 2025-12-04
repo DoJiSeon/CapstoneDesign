@@ -164,17 +164,47 @@ def main():
         # 폴더 스캔 모드
         target_speaker_folder = args.speaker
         video_dir = os.path.join(args.data_dir, target_speaker_folder)
+        
+        # [중요] align 폴더가 하위 폴더인지 확인
         align_dir = os.path.join(video_dir, "align")
 
-        if os.path.exists(video_dir):
+        if not os.path.exists(video_dir):
+            print(f"❌ 스피커 폴더를 찾을 수 없습니다: {video_dir}")
+            # 여기서 return을 하면 main 함수가 끝나버리니, continue하거나 빈 리스트로 진행
+        else:
+            print(f"📂 폴더 스캔 모드: {target_speaker_folder}")
             video_files = [f for f in os.listdir(video_dir) if f.endswith('.mpg') or f.endswith('.mp4')]
-            # 정렬
             video_files.sort()
+            
             for vid_file in video_files:
                 file_id = os.path.splitext(vid_file)[0]
-                # align_path = os.path.join(align_dir, file_id + ".align")
-                # align은 필수가 아니므로 경로만 추가 (text는 빈칸)
-                data_list.append({"video_path": os.path.join(video_dir, vid_file), "text": "", "id": file_id})
+                video_path = os.path.join(video_dir, vid_file)
+                align_path = os.path.join(align_dir, file_id + ".align")
+                
+                ground_truth = ""
+                # 정답 파일 읽기 (get_ground_truth 함수가 정의되어 있다고 가정)
+                if os.path.exists(align_path):
+                    try:
+                        # 파일 안에 get_ground_truth 함수가 없다면 아래 로직 사용
+                        # ground_truth = get_ground_truth(align_path) 
+                        
+                        # [직접 구현 버전] (함수 유무와 상관없이 작동)
+                        with open(align_path, "r", encoding="utf-8") as f:
+                            words = []
+                            for line in f:
+                                parts = line.strip().split()
+                                if len(parts) >= 3 and parts[2] not in ["sil", "sp"]:
+                                    words.append(parts[2])
+                            ground_truth = " ".join(words)
+                    except Exception as e:
+                        print(f"⚠️ 정답 읽기 실패: {e}")
+                    
+                data_list.append({
+                    "video_path": video_path,
+                    "text": ground_truth,
+                    "id": file_id,
+                    "speaker": target_speaker_folder
+                })
 
     # 평가 루프
     results = []

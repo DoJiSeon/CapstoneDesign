@@ -1,129 +1,94 @@
 import os
-import glob
-import torch
-import torchaudio
-import math
-from tqdm import tqdm
+import subprocess
+import shutil
+import numpy as np
+import librosa
+import soundfile as sf
 
-# ================= [설정] =================
-# 1. 깨끗한 원본 데이터 경로 (파일 하나만 지정)
-CLEAN_ROOT = "./tests/swwv9a.mpg" 
+def add_noise_to_video(video_path, noise_path, output_path, target_snr_db=10):
+    """비디오 오디오에 노이즈를 섞고 저장하는 함수 (이전과 동일)"""
+    temp_audio_path = "temp_clean.wav"
+    temp_noisy_audio_path = "temp_noisy.wav"
 
-# 2. 소음 파일 경로
-NOISE_FILE = "./tests/ch01.wav"
-
-# 3. 결과물이 저장될 경로
-OUTPUT_ROOT = "./tests"
-
-# 4. 목표 SNR
-TARGET_SNR = 0
-# ==========================================
-
-def get_signal_power(waveform):
-    return waveform.pow(2).mean()
-
-def mix_audio(clean_waveform, noise_waveform, snr_db):
-    clean_len = clean_waveform.shape[1]
-    noise_len = noise_waveform.shape[1]
-    
-    if noise_len < clean_len:
-        repeat_times = math.ceil(clean_len / noise_len)
-        noise_waveform = noise_waveform.repeat(1, repeat_times)
-    
-    noise_waveform = noise_waveform[:, :clean_len]
-    
-    clean_power = get_signal_power(clean_waveform)
-    noise_power = get_signal_power(noise_waveform)
-    
-    if noise_power == 0:
-        return clean_waveform
-
-    target_noise_power = clean_power / (10 ** (snr_db / 10))
-    scale = (target_noise_power / noise_power).sqrt()
-    
-    noisy_waveform = clean_waveform + (noise_waveform * scale)
-    
-    max_val = noisy_waveform.abs().max()
-    if max_val > 1.0:
-        noisy_waveform = noisy_waveform / max_val
-        
-    return noisy_waveform
-
-def process_single_file(vid_path, noise, target_snr, output_dir):
-    """단일 파일 처리 함수"""
-    file_id = os.path.basename(vid_path).split('.')[0] # 확장자 제거
-    output_wav_path = os.path.join(output_dir, f"{file_id}.wav")
-    
-    print(f"🔄 Processing: {vid_path}")
-    
     try:
-        # 1. 원본 오디오 로드
-        clean, sr = torchaudio.load(vid_path)
+        # 1. 오디오 추출
+        subprocess.call([
+            'ffmpeg', '-y', '-i', video_path, 
+            '-vn', '-acodec', 'pcm_s16le', '-ar', '16000', '-ac', '1', 
+            temp_audio_path
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+        # 2. 로딩 및 노이즈 합성
+        clean_sig, sr = librosa.load(temp_audio_path, sr=16000)
+        noise_sig, _ = librosa.load(noise_path, sr=16000)
+
+        if len(noise_sig) < len(clean_sig):
+            tile_count = int(np.ceil(len(clean_sig) / len(noise_sig)))
+            noise_sig = np.tile(noise_sig, tile_count)
+        noise_sig = noise_sig[:len(clean_sig)]
+
+        clean_power = np.sum(clean_sig ** 2) / len(clean_sig)
+        noise_power = np.sum(noise_sig ** 2) / len(noise_sig)
         
-        # 2. 리샘플링 (16k)
-        if sr != 16000:
-            clean = torchaudio.transforms.Resample(sr, 16000)(clean)
-        
-        # 3. 채널 맞추기 (Mono)
-        if clean.shape[0] > 1:
-            clean = torch.mean(clean, dim=0, keepdim=True)
-        
-        # 소음도 모노로
-        if noise.shape[0] > 1:
-            noise_mono = torch.mean(noise, dim=0, keepdim=True)
+        if noise_power == 0:
+            scale = 0
         else:
-            noise_mono = noise
+            target_noise_power = clean_power / (10 ** (target_snr_db / 10))
+            scale = np.sqrt(target_noise_power / noise_power)
+        
+        noisy_sig = clean_sig + (noise_sig * scale)
+        
+        max_val = np.max(np.abs(noisy_sig))
+        if max_val > 1.0: noisy_sig = noisy_sig / max_val
 
-        # 4. 섞기
-        noisy_audio = mix_audio(clean, noise_mono, target_snr)
-        
-        # 5. 저장
-        torchaudio.save(output_wav_path, noisy_audio, 16000)
-        print(f"✅ Saved to: {output_wav_path}")
-        
+        sf.write(temp_noisy_audio_path, noisy_sig, sr)
+
+        # 3. 병합
+        subprocess.call([
+            'ffmpeg', '-y', '-i', video_path, '-i', temp_noisy_audio_path,
+            '-c:v', 'copy', '-c:a', 'mp2', '-map', '0:v:0', '-map', '1:a:0',
+            output_path
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
     except Exception as e:
-        print(f"❌ Error on {file_id}: {e}")
+        print(f"Error processing {video_path}: {e}")
+    
+    finally:
+        if os.path.exists(temp_audio_path): os.remove(temp_audio_path)
+        if os.path.exists(temp_noisy_audio_path): os.remove(temp_noisy_audio_path)
 
-def main():
-    print(f"🔊 Noise Generation Started!")
-    print(f"   Clean Source: {CLEAN_ROOT}")
-    print(f"   Noise Source: {NOISE_FILE}")
-    print(f"   Target SNR: {TARGET_SNR} dB")
-    
-    # 출력 폴더 생성
-    os.makedirs(OUTPUT_ROOT, exist_ok=True)
-    
-    # 소음 로드 (한 번만)
-    noise, sr_noise = torchaudio.load(NOISE_FILE)
-    if sr_noise != 16000:
-        resampler = torchaudio.transforms.Resample(sr_noise, 16000)
-        noise = resampler(noise)
-    
-    # [수정된 부분] 파일인지 폴더인지 확인하여 분기 처리
-    if os.path.isfile(CLEAN_ROOT):
-        # 1. 단일 파일 모드
-        process_single_file(CLEAN_ROOT, noise, TARGET_SNR, OUTPUT_ROOT)
-        
-    else:
-        # 2. 데이터셋 폴더 모드 (기존 로직)
-        all_speakers = glob.glob(os.path.join(CLEAN_ROOT, "s*"))
-        all_speakers.sort()
-        
-        for spk_dir in tqdm(all_speakers, desc="Processing Speakers"):
-            spk_name = os.path.basename(spk_dir)
-            out_spk_dir = os.path.join(OUTPUT_ROOT, spk_name)
-            os.makedirs(out_spk_dir, exist_ok=True)
-            
-            video_files = glob.glob(os.path.join(spk_dir, "*.mpg"))
-            for vid_path in video_files:
-                file_id = os.path.basename(vid_path).replace(".mpg", "")
-                output_wav_path = os.path.join(out_spk_dir, f"{file_id}.wav")
-                
-                if os.path.exists(output_wav_path): continue
-                
-                # 내부 로직은 단일 처리 함수와 동일하므로 복붙하거나 함수 호출 가능
-                # 여기선 기존 흐름 유지를 위해 생략하고 process_single_file 호출로 대체 가능
-                process_single_file(vid_path, noise, TARGET_SNR, out_spk_dir)
+# --- 실행 설정 ---
+source_folder = "/local_datasets/GRID_srt/data/s10_processed"       # 원본 데이터 폴더
+output_folder = "/local_datasets/GRID_srt/noisedata_DKITCHEN_SNR0"       # 결과 저장 폴더
+noise_file = "./tests/ch01.wav"  # 다운받은 노이즈 파일 경로 (변경 필요)
+SNR = 0                                 # 테스트할 SNR (0, 5, 10, 15 등)
 
-if __name__ == "__main__":
-    main()
+# 1. 출력 폴더 생성 (없으면 생성)
+os.makedirs(output_folder, exist_ok=True)
+
+# 2. 비디오 처리 (mpg 파일만 골라서 노이즈 추가)
+files = [f for f in os.listdir(source_folder) if f.endswith('.mpg')]
+print(f"총 {len(files)}개의 비디오 파일 처리를 시작합니다. (SNR: {SNR}dB)")
+
+for i, filename in enumerate(files):
+    src_video_path = os.path.join(source_folder, filename)
+    dst_video_path = os.path.join(output_folder, filename)
+    
+    add_noise_to_video(src_video_path, noise_file, dst_video_path, target_snr_db=SNR)
+    
+    if (i+1) % 50 == 0:
+        print(f"{i+1}/{len(files)} 비디오 처리 완료...")
+
+# 3. Align 폴더 통째로 복사 (이 부분이 변경되었습니다)
+src_align_dir = os.path.join(source_folder, "align")
+dst_align_dir = os.path.join(output_folder, "align")
+
+if os.path.exists(src_align_dir):
+    print("Align 폴더 복사를 시작합니다...")
+    # dirs_exist_ok=True: 이미 폴더가 있어도 덮어쓰거나 병합함 (Python 3.8+)
+    shutil.copytree(src_align_dir, dst_align_dir, dirs_exist_ok=True)
+    print("Align 폴더 복사 완료.")
+else:
+    print(f"경고: 원본 경로에 align 폴더가 없습니다. ({src_align_dir})")
+
+print("모든 작업이 완료되었습니다.")

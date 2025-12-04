@@ -29,8 +29,8 @@ python train.py \
   --downsample-ratio-audio 4 \
   --downsample-ratio-video 2 \
   --accumulate-grad-batches 8 \
-  --grid-max-train-samples 1000 \
-  --grid-max-val-samples 100 \
+  --grid-max-train-samples 10000 \
+  --grid-max-val-samples 1500 \
   --use-uadf
 
 
