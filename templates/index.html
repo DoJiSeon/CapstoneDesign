@@ -6,7 +6,22 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 30px; background-color: #f4f4f9; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        video { border-radius: 8px; background: #000; width: 100%; max-width: 640px; margin-bottom: 20px; }
+        
+        /* 비디오 영역 */
+        .video-wrapper { position: relative; width: 100%; max-width: 640px; margin: 0 auto 20px auto; background: #000; border-radius: 8px; overflow: hidden; }
+        video { width: 100%; display: block; }
+        
+        /* 오디오 레벨 미터 (시각화) */
+        #audio-meter-container {
+            position: absolute; bottom: 10px; left: 10px; width: 20px; height: 100px;
+            background-color: rgba(255, 255, 255, 0.3); border-radius: 10px; overflow: hidden;
+            display: flex; flex-direction: column-reverse; /* 아래에서 위로 채워지게 */
+        }
+        #audio-meter-bar {
+            width: 100%; height: 0%; 
+            background-color: #00ff00; transition: height 0.1s;
+        }
+
         button { padding: 12px 24px; font-size: 16px; margin: 10px; cursor: pointer; border: none; border-radius: 5px; color: white; transition: 0.3s; }
         #startBtn { background-color: #28a745; }
         #stopBtn { background-color: #dc3545; }
@@ -14,44 +29,114 @@
         #status { margin-top: 20px; font-weight: bold; color: #555; }
         #result-box { margin-top: 20px; padding: 20px; border: 2px solid #007bff; border-radius: 8px; background-color: #e9f5ff; display: none; }
         h3 { margin-top: 0; color: #007bff; }
+        .debug-info { font-size: 0.8em; color: #999; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎙️ AVSR 추론 데모</h1>
-        <p>웹캠으로 영상을 녹화하면 서버의 GPU가 해석합니다.</p>
+        <p>왼쪽 하단 <b>초록색 막대</b>가 움직여야 소리가 들어가는 것입니다!</p>
         
-        <video id="preview" autoplay muted playsinline></video>
+        <div class="video-wrapper">
+            <video id="preview" autoplay muted playsinline></video>
+            <div id="audio-meter-container" title="마이크 볼륨">
+                <div id="audio-meter-bar"></div>
+            </div>
+        </div>
         
         <div>
             <button id="startBtn">🔴 녹화 시작</button>
             <button id="stopBtn" disabled>⏹️ 종료 및 전송</button>
         </div>
 
-        <div id="status">준비됨</div>
+        <div id="status">마이크/카메라 권한을 허용해주세요...</div>
 
         <div id="result-box">
             <h3>추론 결과</h3>
             <p id="result-text" style="font-size: 1.2em; font-weight: bold;">...</p>
         </div>
+        <div class="debug-info" id="mime-info"></div>
     </div>
 
     <script>
         let mediaRecorder;
         let recordedChunks = [];
+        let audioContext, analyser, microphone, javascriptNode;
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
         const statusDiv = document.getElementById('status');
         const resultBox = document.getElementById('result-box');
         const resultText = document.getElementById('result-text');
+        const meterBar = document.getElementById('audio-meter-bar');
+
+        // 호환되는 MIME Type 찾기
+        function getSupportedMimeType() {
+            const types = [
+                'video/webm; codecs=vp9,opus',
+                'video/webm; codecs=vp8,opus',
+                'video/webm',
+                'video/mp4' // Safari 등 대비
+            ];
+            for (const type of types) {
+                if (MediaRecorder.isTypeSupported(type)) {
+                    return type;
+                }
+            }
+            return ''; // 지원되는 게 없으면 빈 문자열 (브라우저 기본값 사용)
+        }
 
         // 웹캠 스트림 (오디오 포함 필수)
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then(stream => {
                 document.getElementById('preview').srcObject = stream;
-                // mimeType 지정: 크롬은 webm/vp8 or vp9
-                const options = { mimeType: 'video/webm; codecs=vp9,opus' };
-                mediaRecorder = new MediaRecorder(stream, options);
+                statusDiv.innerText = "준비됨 (말을 해보세요!)";
+
+                // --- [추가] 오디오 시각화 (볼륨 체크용) ---
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    microphone = audioContext.createMediaStreamSource(stream);
+                    javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+                    analyser.smoothingTimeConstant = 0.8;
+                    analyser.fftSize = 1024;
+
+                    microphone.connect(analyser);
+                    analyser.connect(javascriptNode);
+                    javascriptNode.connect(audioContext.destination);
+
+                    javascriptNode.onaudioprocess = function() {
+                        var array = new Uint8Array(analyser.frequencyBinCount);
+                        analyser.getByteFrequencyData(array);
+                        var values = 0;
+                        var length = array.length;
+                        for (var i = 0; i < length; i++) {
+                            values += array[i];
+                        }
+                        var average = values / length;
+                        // 볼륨에 따라 막대 높이 조절
+                        meterBar.style.height = Math.min(100, average * 2) + "%";
+                        
+                        // 색상 변경 (소리가 너무 작으면 빨강, 적당하면 초록)
+                        if (average < 5) meterBar.style.backgroundColor = "red";
+                        else meterBar.style.backgroundColor = "#00ff00";
+                    }
+                } catch (e) {
+                    console.log("Audio Context Error: ", e);
+                }
+                // ------------------------------------------
+
+                const mimeType = getSupportedMimeType();
+                document.getElementById('mime-info').innerText = `Using Codec: ${mimeType || 'Default'}`;
+                
+                const options = mimeType ? { mimeType } : {};
+                
+                try {
+                    mediaRecorder = new MediaRecorder(stream);
+                } catch (e) {
+                    console.error("MediaRecorder Init Failed:", e);
+                    mediaRecorder = new MediaRecorder(stream); // 옵션 없이 재시도
+                }
 
                 mediaRecorder.ondataavailable = event => {
                     if (event.data.size > 0) recordedChunks.push(event.data);
@@ -60,16 +145,20 @@
                 mediaRecorder.onstop = uploadVideo;
             })
             .catch(err => {
-                statusDiv.innerText = "웹캠 권한 실패: " + err;
+                console.error(err);
+                statusDiv.innerText = "❌ 웹캠/마이크 권한 실패! 설정에서 허용해주세요.";
             });
 
         startBtn.onclick = () => {
+            if (audioContext && audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
             recordedChunks = [];
             mediaRecorder.start();
             startBtn.disabled = true;
             stopBtn.disabled = false;
             resultBox.style.display = 'none';
-            statusDiv.innerText = "녹화 중...";
+            statusDiv.innerText = "녹화 중... (초록 막대가 움직이나요?)";
         };
 
         stopBtn.onclick = () => {
@@ -99,7 +188,11 @@
                     resultText.innerText = data.inference_result;
                     resultBox.style.display = 'block';
                 } else {
-                    statusDiv.innerText = "에러 발생: " + data.inference_result;
+                    if(data.status === 'loading') {
+                        statusDiv.innerText = "모델 로딩 중입니다... 잠시 후 다시 시도해주세요.";
+                    } else {
+                        statusDiv.innerText = "에러: " + data.inference_result;
+                    }
                 }
             } catch (error) {
                 console.error(error);
