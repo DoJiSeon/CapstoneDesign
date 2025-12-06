@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Seraph AVSR Demo</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; padding: 30px; background-color: #f4f4f9; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        video { border-radius: 8px; background: #000; width: 100%; max-width: 640px; margin-bottom: 20px; }
+        button { padding: 12px 24px; font-size: 16px; margin: 10px; cursor: pointer; border: none; border-radius: 5px; color: white; transition: 0.3s; }
+        #startBtn { background-color: #28a745; }
+        #stopBtn { background-color: #dc3545; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        #status { margin-top: 20px; font-weight: bold; color: #555; }
+        #result-box { margin-top: 20px; padding: 20px; border: 2px solid #007bff; border-radius: 8px; background-color: #e9f5ff; display: none; }
+        h3 { margin-top: 0; color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ AVSR 추론 데모</h1>
+        <p>웹캠으로 영상을 녹화하면 서버의 GPU가 해석합니다.</p>
+        
+        <video id="preview" autoplay muted playsinline></video>
+        
+        <div>
+            <button id="startBtn">🔴 녹화 시작</button>
+            <button id="stopBtn" disabled>⏹️ 종료 및 전송</button>
+        </div>
+
+        <div id="status">준비됨</div>
+
+        <div id="result-box">
+            <h3>추론 결과</h3>
+            <p id="result-text" style="font-size: 1.2em; font-weight: bold;">...</p>
+        </div>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let recordedChunks = [];
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const statusDiv = document.getElementById('status');
+        const resultBox = document.getElementById('result-box');
+        const resultText = document.getElementById('result-text');
+
+        // 웹캠 스트림 (오디오 포함 필수)
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(stream => {
+                document.getElementById('preview').srcObject = stream;
+                // mimeType 지정: 크롬은 webm/vp8 or vp9
+                const options = { mimeType: 'video/webm; codecs=vp9,opus' };
+                mediaRecorder = new MediaRecorder(stream, options);
+
+                mediaRecorder.ondataavailable = event => {
+                    if (event.data.size > 0) recordedChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = uploadVideo;
+            })
+            .catch(err => {
+                statusDiv.innerText = "웹캠 권한 실패: " + err;
+            });
+
+        startBtn.onclick = () => {
+            recordedChunks = [];
+            mediaRecorder.start();
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            resultBox.style.display = 'none';
+            statusDiv.innerText = "녹화 중...";
+        };
+
+        stopBtn.onclick = () => {
+            mediaRecorder.stop();
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            statusDiv.innerText = "서버 전송 중...";
+        };
+
+        async function uploadVideo() {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const formData = new FormData();
+            const filename = `avsr_rec_${Date.now()}.webm`;
+            formData.append("file", blob, filename);
+
+            statusDiv.innerText = "GPU 추론 중... (잠시만 기다리세요)";
+            
+            try {
+                const response = await fetch('/upload-video', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                if(data.status === 'success') {
+                    statusDiv.innerText = "완료!";
+                    resultText.innerText = data.inference_result;
+                    resultBox.style.display = 'block';
+                } else {
+                    statusDiv.innerText = "에러 발생: " + data.inference_result;
+                }
+            } catch (error) {
+                console.error(error);
+                statusDiv.innerText = "네트워크 에러!";
+            }
+        }
+    </script>
+</body>
+</html>
