@@ -1,0 +1,1001 @@
+file,gt,pred,wer
+bbab8n,bin blue at b eight now,im in blue at b eight now,0.3333333333333333
+bbab9s,bin blue at b nine soon,been blue at b nine soon,0.16666666666666666
+bbac1a,bin blue at c one again,been blue at c one again,0.16666666666666666
+bbaczp,bin blue at c zero please,bin lu at czero please,0.5
+bbai2n,bin blue at i two now,ive been blue at i two now,0.3333333333333333
+bbai3s,bin blue at i three soon,bin lu at i three soon,0.16666666666666666
+bbai4p,bin blue at i four please,im in blue at i four please,0.3333333333333333
+bbai5a,bin blue at i five again,im blue at i five again,0.16666666666666666
+bbao6n,bin blue at o six now,ive been blue at zero six now,0.5
+bbao7s,bin blue at o seven soon,bin baloot zero seven soon,0.5
+bbao8p,bin blue at o eight please,ben blue with zero eight please,0.5
+bbao9a,bin blue at o nine again,been blue at zero eight nine again,0.5
+bbav1s,bin blue at v one soon,its been blue at v one soon,0.3333333333333333
+bbav2p,bin blue at v two please,ive been blue at fee too please,0.6666666666666666
+bbav3a,bin blue at v three again,and then blue at v three again,0.3333333333333333
+bbavzn,bin blue at v zero now,ive been blue at v zero now,0.3333333333333333
+bbbc2n,bin blue by c two now,bin blue by c two now,0.0
+bbbc3s,bin blue by c three soon,been blue by c three soon,0.16666666666666666
+bbbc4p,bin blue by c four please,bin lu by c four please,0.16666666666666666
+bbbc5a,bin blue by c five again,bin blue by c five again,0.0
+bbbi6n,bin blue by i six now,bin blue by isix now,0.3333333333333333
+bbbi7s,bin blue by i seven soon,been blue by i seven soon,0.16666666666666666
+bbbi8p,bin blue by i eight please,been blue for i eight please,0.3333333333333333
+bbbi9a,bin blue by i nine again,ive been blue by i nine again,0.3333333333333333
+bbbp1s,bin blue by p one soon,been blue by p one soon,0.16666666666666666
+bbbp2p,bin blue by p two please,bin blue by p two please,0.0
+bbbp3a,bin blue by p three again,been blue by p three again,0.16666666666666666
+bbbpzn,bin blue by p zero now,ive been blue by p zero now,0.3333333333333333
+bbbv4n,bin blue by v four now,ive been blue by v four now,0.3333333333333333
+bbbv5s,bin blue by v five soon,been blue by v five soon,0.16666666666666666
+bbbv6p,bin blue by v six please,been blue by v six please,0.16666666666666666
+bbbv7a,bin blue by v seven again,bin blue by v seven again,0.0
+bbib4n,bin blue in b four now,its been blue and b four now,0.5
+bbib5s,bin blue in b five soon,been blue in p five soon,0.3333333333333333
+bbib6p,bin blue in b six please,bin blue and b six please,0.16666666666666666
+bbib7a,bin blue in b seven again,been blue and b seven again,0.3333333333333333
+bbih8n,bin blue in h eight now,been blue in age eight now,0.3333333333333333
+bbih9s,bin blue in h nine soon,been blue in h nine soon,0.16666666666666666
+bbii1a,bin blue in i one again,bin lu and i won again,0.5
+bbiizp,bin blue in i zero please,its been blue in eyzero please,0.6666666666666666
+bbio2n,bin blue in o two now,ive been blue in zero two now,0.5
+bbio3s,bin blue in o three soon,bin blue in zero three soon,0.16666666666666666
+bbio4p,bin blue in o four please,dim blue in zero four please,0.3333333333333333
+bbio5a,bin blue in o five again,im in blue in zero five again,0.5
+bbiu6n,bin blue in u six now,im in blue and youre in red,1.0
+bbiu7s,bin blue in u seven soon,been blue in you seven soon,0.3333333333333333
+bbiu8p,bin blue in u eight please,bin blue in ue eight please,0.16666666666666666
+bbiu9a,bin blue in u nine again,bin blue and you nine again,0.3333333333333333
+bbwc6n,bin blue with c six now,its been blue with c six now,0.3333333333333333
+bbwc7s,bin blue with c seven soon,been blue with c seven soon,0.16666666666666666
+bbwc8p,bin blue with c eight please,bin lu with ca eight please,0.3333333333333333
+bbwc9a,bin blue with c nine again,bin blue with c nine again,0.0
+bbwj1s,bin blue with j one soon,ben blue with j one soon,0.16666666666666666
+bbwj2p,bin blue with j two please,bin blue with j two please,0.0
+bbwj3a,bin blue with j three again,been blue with j three again,0.16666666666666666
+bbwjzn,bin blue with j zero now,ben blue with j zero now,0.16666666666666666
+bbwp4n,bin blue with p four now,been blue with p four now,0.16666666666666666
+bbwp5s,bin blue with p five soon,been blue with p five soon,0.16666666666666666
+bbwp6p,bin blue with p six please,bin blue with p six please,0.0
+bbwp7a,bin blue with p seven again,then blue with p seven again,0.16666666666666666
+bbwv8n,bin blue with v eight now,been blue with a v eight now,0.3333333333333333
+bbwv9s,bin blue with v nine soon,bin blue with v nine soon,0.0
+bbwx1a,bin blue with x one again,ive been blue with x one again,0.3333333333333333
+bbwxzp,bin blue with x zero please,been blue thanks zero please,0.5
+bgad6n,bin green at d six now,im in green at d six now,0.3333333333333333
+bgad7s,bin green at d seven soon,ive been green at the seven soon,0.5
+bgad8p,bin green at d eight please,bin green at the eighth please,0.3333333333333333
+bgad9a,bin green at d nine again,been green at d nine again,0.16666666666666666
+bgak1s,bin green at k one soon,been green at k one soon,0.16666666666666666
+bgak2p,bin green at k two please,bin green at k two please,0.0
+bgak3a,bin green at k three again,bin gura k three again,0.3333333333333333
+bgakzn,bin green at k zero now,been green at k zero now,0.16666666666666666
+bgaq4n,bin green at q four now,been green at key four now,0.3333333333333333
+bgaq5s,bin green at q five soon,been green at q five soon,0.16666666666666666
+bgaq6p,bin green at q six please,been green at q six please,0.16666666666666666
+bgaq7a,bin green at q seven again,been green at q seven again,0.16666666666666666
+bgax8n,bin green at x eight now,been green at x eight now,0.16666666666666666
+bgax9s,bin green at x nine soon,been green at x nine soon,0.16666666666666666
+bgay1a,bin green at y one again,been green at y one again,0.16666666666666666
+bgayzp,bin green at y zero please,been green at wife zero please,0.3333333333333333
+bgbe1s,bin green by e one soon,been green by ewan soon,0.5
+bgbe2p,bin green by e two please,bin green might eat too please,0.5
+bgbe3a,bin green by e three again,bin green by e three again,0.0
+bgbezn,bin green by e zero now,been green by e zero now,0.16666666666666666
+bgbk4n,bin green by k four now,ben green by k four now,0.16666666666666666
+bgbk5s,bin green by k five soon,been green by k five soon,0.16666666666666666
+bgbk6p,bin green by k six please,bin green by k six please,0.0
+bgbk7a,bin green by k seven again,been green by k seven again,0.16666666666666666
+bgbq8n,bin green by q eight now,been green by q eight now,0.16666666666666666
+bgbq9s,bin green by q nine soon,bin green by q nine soon,0.0
+bgbr1a,bin green by r one again,bin green by r one again,0.0
+bgbrzp,bin green by r zero please,been green by r zero please,0.16666666666666666
+bgby2n,bin green by y two now,been green by why two now,0.3333333333333333
+bgby3s,bin green by y three soon,been green by y three soon,0.16666666666666666
+bgby4p,bin green by y four please,been green by why four please,0.3333333333333333
+bgby5a,bin green by y five again,been green by why five again,0.3333333333333333
+bgid2n,bin green in d two now,ben green in d two now,0.16666666666666666
+bgid3s,bin green in d three soon,been green in d three soon,0.16666666666666666
+bgid4p,bin green in d four please,bin green and d four please,0.16666666666666666
+bgid5a,bin green in d five again,been green in d five again,0.16666666666666666
+bgij6n,bin green in j six now,been green and jaysix now,0.6666666666666666
+bgij7s,bin green in j seven soon,ive been green in j seven soon,0.3333333333333333
+bgij8p,bin green in j eight please,ben green in j eight please,0.16666666666666666
+bgij9a,bin green in j nine again,been green in j nine again,0.16666666666666666
+bgiq1s,bin green in q one soon,ive been green in kuwait soon,0.6666666666666666
+bgiq2p,bin green in q two please,bin green in q two please,0.0
+bgiq3a,bin green in q three again,bin green and q three again,0.16666666666666666
+bgiqzn,bin green in q zero now,been green in q four now,0.3333333333333333
+bgix4n,bin green in x four now,been green at x four now,0.3333333333333333
+bgix5s,bin green in x five soon,been green at x five soon,0.3333333333333333
+bgix6p,bin green in x six please,bin green in x six please,0.0
+bgix7a,bin green in x seven again,been green in x seven again,0.16666666666666666
+bgwe4n,bin green with e four now,ben green with e four now,0.16666666666666666
+bgwe5s,bin green with e five soon,been green with e five soon,0.16666666666666666
+bgwe6p,bin green with e six please,bin green with e six please,0.0
+bgwe7a,bin green with e seven again,ive been green with e seven again,0.3333333333333333
+bgwk8n,bin green with k eight now,bin green with k eight now,0.0
+bgwk9s,bin green with k nine soon,been green with k nine soon,0.16666666666666666
+bgwl1a,bin green with l one again,ben green with l one again,0.16666666666666666
+bgwlzp,bin green with l zero please,been green with l zero please,0.16666666666666666
+bgwr2n,bin green with r two now,ben green with r two now,0.16666666666666666
+bgwr3s,bin green with r three soon,been green with r three soon,0.16666666666666666
+bgwr4p,bin green with r four please,bin green with r four please,0.0
+bgwr5a,bin green with r five again,bin green with r five again,0.0
+bgwy6n,bin green with y six now,ben green with the white six now,0.5
+bgwy7s,bin green with y seven soon,been green with why seven soon,0.3333333333333333
+bgwy8p,bin green with y eight please,ben green with y eight,0.3333333333333333
+bgwy9a,bin green with y nine again,bin green with eight nine again,0.16666666666666666
+brac4n,bin red at c four now,been read at c four now,0.3333333333333333
+brac5s,bin red at c five soon,ive been rated as c five soon,0.6666666666666666
+brac6p,bin red at c six please,been read at c six please,0.3333333333333333
+brac7a,bin red at c seven again,been read at c seven again,0.3333333333333333
+brai8n,bin red at i eight now,been read at i eights now,0.5
+brai9s,bin red at i nine soon,been read at i nine soon,0.3333333333333333
+braj1a,bin red at j one again,ive been reading j one again,0.5
+brajzp,bin red at j zero please,been read at twoa please,0.6666666666666666
+brap2n,bin red at p two now,been rated p two now,0.5
+brap3s,bin red at p three soon,im ben read at p three soon,0.5
+brap4p,bin red at p four please,been read it p four please,0.5
+brap5a,bin red at p five again,its been read at p five again,0.5
+brav6n,bin red at v six now,been read of e six now,0.6666666666666666
+brav7s,bin red at v seven soon,been read of v seven soon,0.5
+brav8p,bin red at v eight please,been read at v eight please,0.3333333333333333
+brav9a,bin red at v nine again,its been read at v nine again,0.5
+brbc8n,bin red by c eight now,been read by cea now,0.6666666666666666
+brbc9s,bin red by c nine soon,been read by cnn soon,0.6666666666666666
+brbd1a,bin red by d one again,been read by d one again,0.3333333333333333
+brbdzp,bin red by d zero please,been red by the easy up please,0.6666666666666666
+brbj2n,bin red by j two now,been read by j two now,0.3333333333333333
+brbj3s,bin red by j three soon,been read by j three soon,0.3333333333333333
+brbj4p,bin red by j four please,been read by j four please,0.3333333333333333
+brbj5a,bin red by j five again,been read by j five again,0.3333333333333333
+brbp6n,bin red by p six now,ive been reading by p six now,0.5
+brbp7s,bin red by p seven soon,been read by p seven soon,0.3333333333333333
+brbp8p,bin red by p eight please,been read by p eight please,0.3333333333333333
+brbp9a,bin red by p nine again,ive been red by p nine again,0.3333333333333333
+brbx1s,bin red by x one soon,ive been raided by x one soon,0.5
+brbx2p,bin red by x two please,been read by x two please,0.3333333333333333
+brbx3a,bin red by x three again,been read by x three again,0.3333333333333333
+brbxzn,bin red by x zero now,ive been reading by xero now,0.8333333333333334
+bric1s,bin red in c one soon,been rated c one soon,0.5
+bric2p,bin red in c two please,been read in c two please,0.3333333333333333
+bric3a,bin red in c three again,been right in c three again,0.3333333333333333
+briczn,bin red in c zero now,been read in c zero now,0.3333333333333333
+brii4n,bin red in i four now,been red in ifor now,0.5
+brii5s,bin red in i five soon,been rated in ifv soon,0.6666666666666666
+brii6p,bin red in i six please,been read in isix please,0.6666666666666666
+brii7a,bin red in i seven again,been read in is seven again,0.5
+brio8n,bin red in o eight now,ive been reading zero eight now,0.6666666666666666
+brio9s,bin red in o nine soon,been read in zero nine soon,0.5
+brip1a,bin red in p one again,been read in p one again,0.3333333333333333
+bripzp,bin red in p zero please,been read in p zero please,0.3333333333333333
+briv2n,bin red in v two now,been read in v two now,0.3333333333333333
+briv3s,bin red in v three soon,been rated in v three soon,0.3333333333333333
+briv4p,bin red in v four please,been reading v four please,0.5
+briv5a,bin red in v five again,been read in v five again,0.3333333333333333
+brwd2n,bin red with d two now,ive been raided with d two now,0.5
+brwd3s,bin red with d three soon,been read with d three soon,0.3333333333333333
+brwd4p,bin red with d four please,been read with the four please,0.5
+brwd5a,bin red with d five again,bin red with d five again,0.0
+brwj6n,bin red with j six now,been read with j six now,0.3333333333333333
+brwj7s,bin red with j seven soon,been reading with j seven soon,0.3333333333333333
+brwj8p,bin red with j eight please,been read with the j eight please,0.5
+brwj9a,bin red with j nine again,bin red with the j nine again,0.16666666666666666
+brwq1s,bin red with q one soon,been read with q one soon,0.3333333333333333
+brwq2p,bin red with q two please,been read with q two please,0.3333333333333333
+brwq3a,bin red with q three again,ive been reading q three again,0.5
+brwqzn,bin red with q zero now,been read of the qunk now,0.8333333333333334
+brwx4n,bin red with x four now,been read with x four now,0.3333333333333333
+brwx5s,bin red with x five soon,been read with x five soon,0.3333333333333333
+brwx6p,bin red with x six please,bin red with x six please,0.0
+brwx7a,bin red with x seven again,been read with x seven again,0.3333333333333333
+bwad1s,bin white at d one soon,bin wey to d one soon,0.3333333333333333
+bwad2p,bin white at d two please,ben white at d two please,0.16666666666666666
+bwad3a,bin white at d three again,bin white at d three again,0.0
+bwadzn,bin white at d zero now,been white at zero now,0.3333333333333333
+bwaj4n,bin white at j four now,been white that j four now,0.3333333333333333
+bwaj5s,bin white at j five soon,been white at j five soon,0.16666666666666666
+bwaj6p,bin white at j six please,been wired at j six please,0.3333333333333333
+bwaj7a,bin white at j seven again,been white that j seven again,0.3333333333333333
+bwap8n,bin white at p eight now,been white that p eight now,0.3333333333333333
+bwap9s,bin white at p nine soon,been white at p nine soon,0.16666666666666666
+bwaq1a,bin white at q one again,been white at q one again,0.16666666666666666
+bwaqzp,bin white at q zero please,ben white at q zero please,0.16666666666666666
+bwax2n,bin white at x two now,its been white at x two now,0.3333333333333333
+bwax3s,bin white at x three soon,bin white at x three soon,0.0
+bwax4p,bin white at x four please,been wired at x four please,0.3333333333333333
+bwax5a,bin white at x five again,bin wey to x five again,0.3333333333333333
+bwbd4n,bin white by d four now,ive been white by default now,0.6666666666666666
+bwbd5s,bin white by d five soon,ben white by d five soon,0.16666666666666666
+bwbd6p,bin white by d six please,been white by the six please,0.3333333333333333
+bwbd7a,bin white by d seven again,ive been white by these seven again,0.5
+bwbj8n,bin white by j eight now,been white by j eightth now,0.3333333333333333
+bwbj9s,bin white by j nine soon,been white by jay one one soon,0.6666666666666666
+bwbk1a,bin white by k one again,been white by k one again,0.16666666666666666
+bwbkzp,bin white by k zero please,been white by k zero please,0.16666666666666666
+bwbq2n,bin white by q two now,bin weidt by q two now,0.16666666666666666
+bwbq3s,bin white by q three soon,bin weyatt by q three soon,0.16666666666666666
+bwbq4p,bin white by q four please,bin white by q four please,0.0
+bwbq5a,bin white by q five again,been white by q five again,0.16666666666666666
+bwbx6n,bin white by x six now,been wiped by x six now,0.3333333333333333
+bwbx7s,bin white by x seven soon,been white by x seven soon,0.16666666666666666
+bwbx8p,bin white by x eight please,been white by x eight please,0.16666666666666666
+bwbx9a,bin white by x nine again,been white by x nine again,0.16666666666666666
+bwic6n,bin white in c six now,been white in c six now,0.16666666666666666
+bwic7s,bin white in c seven soon,been watching c seven soon,0.5
+bwic8p,bin white in c eight please,been white in the c eight please,0.3333333333333333
+bwic9a,bin white in c nine again,ben white in c nine again,0.16666666666666666
+bwij1s,bin white in j one soon,been white in j one soon,0.16666666666666666
+bwij2p,bin white in j two please,bin wiet in j two please,0.16666666666666666
+bwij3a,bin white in j three again,ben white in j three again,0.16666666666666666
+bwijzn,bin white in j zero now,been white in j zero now,0.16666666666666666
+bwip4n,bin white in p four now,ben whites in p four now,0.3333333333333333
+bwip5s,bin white in p five soon,been white in p five soon,0.16666666666666666
+bwip6p,bin white in p six please,ben white at mp six please,0.5
+bwip7a,bin white in p seven again,bin weys in p seven again,0.16666666666666666
+bwiv8n,bin white in v eight now,ben white in v eight now,0.16666666666666666
+bwiv9s,bin white in v nine soon,been white in v nine soon,0.16666666666666666
+bwix1a,bin white in x one again,been white the next one again,0.5
+bwixzp,bin white in x zero please,being wired to next year please,0.8333333333333334
+bwwd8n,bin white with d eight now,been watched with the eighth now,0.6666666666666666
+bwwd9s,bin white with d nine soon,ben white with the nine soon,0.3333333333333333
+bwwe1a,bin white with e one again,bin white with e one again,0.0
+bwwezp,bin white with e zero please,been white with a zero please,0.3333333333333333
+bwwk2n,bin white with k two now,bin weid with k two now,0.16666666666666666
+bwwk3s,bin white with k three soon,ben white with k three soon,0.16666666666666666
+bwwk4p,bin white with k four please,ben white with k four please,0.16666666666666666
+bwwk5a,bin white with k five again,ben white with k five again,0.16666666666666666
+bwwq6n,bin white with q six now,bin white with q six now,0.0
+bwwq7s,bin white with q seven soon,been white with q seven soon,0.16666666666666666
+bwwq8p,bin white with q eight please,been while with q eight please,0.3333333333333333
+bwwq9a,bin white with q nine again,bin white with q nine again,0.0
+bwwy1s,bin white with y one soon,been white with a yone soon,0.5
+bwwy2p,bin white with y two please,bin white with y two please,0.0
+bwwy3a,bin white with y three again,ben white with y three again,0.16666666666666666
+bwwyzn,bin white with y zero now,ive been white with w zero now,0.5
+lbaa2n,lay blue at a two now,lay blue with a two now,0.16666666666666666
+lbaa3s,lay blue at a three soon,laid blue with a three soon,0.3333333333333333
+lbaa4p,lay blue at a four please,i label it a four please,0.5
+lbaa5a,lay blue at a five again,they blew it at a five again,0.5
+lbag6n,lay blue at g six now,they blew at g six now,0.3333333333333333
+lbag7s,lay blue at g seven soon,lay blue at g seven soon,0.0
+lbag8p,lay blue at g eight please,lay blue at ga eight please,0.16666666666666666
+lbag9a,lay blue at g nine again,lay blue at g nine again,0.0
+lban1s,lay blue at n one soon,i lay blue at n one soon,0.16666666666666666
+lban2p,lay blue at n two please,laid blue at n two please,0.16666666666666666
+lban3a,lay blue at n three again,lay blue at in three again,0.16666666666666666
+lbanzn,lay blue at n zero now,larry blue with n zero now,0.3333333333333333
+lbat4n,lay blue at t four now,lay blue at t four now,0.0
+lbat5s,lay blue at t five soon,lay blue at t five soon,0.0
+lbat6p,lay blue at t six please,lay blue at t six please,0.0
+lbat7a,lay blue at t seven again,i lay blue at t seven again,0.16666666666666666
+lbba6n,lay blue by a six now,i lay blue by a six now,0.16666666666666666
+lbba7s,lay blue by a seven soon,ill lay blue by eight seven soon,0.3333333333333333
+lbba8p,lay blue by a eight please,lay blue by a eight please,0.0
+lbba9a,lay blue by a nine again,they blew by eight nine again,0.5
+lbbh1s,lay blue by h one soon,they blew by h one soon,0.3333333333333333
+lbbh2p,lay blue by h two please,lay a blue on h two please,0.3333333333333333
+lbbh3a,lay blue by h three again,laid blue by h three again,0.16666666666666666
+lbbhzn,lay blue by h zero now,lay blue by h zero now,0.0
+lbbn4n,lay blue by n four now,im going to go to the bathroom,1.1666666666666667
+lbbn5s,lay blue by n five soon,i lay blue button five soon,0.5
+lbbn6p,lay blue by n six please,lay blue button six please,0.3333333333333333
+lbbn7a,lay blue by n seven again,lay blue by in seven again,0.16666666666666666
+lbbt8n,lay blue by t eight now,lay blue by t eight now,0.0
+lbbt9s,lay blue by t nine soon,ill lay blue by nine oclock soon,0.5
+lbbu1a,lay blue by u one again,they blew by you one again,0.5
+lbbuzp,lay blue by u zero please,labor by you zero please,0.5
+lbia1a,lay blue in a one again,lay blue in a one again,0.0
+lbiazp,lay blue in a zero please,lay blue in a zero please,0.0
+lbig2n,lay blue in g two now,im lay blue in g two now,0.16666666666666666
+lbig3s,lay blue in g three soon,lay blue in g three soon,0.0
+lbig4p,lay blue in g four please,lay blue in g four please,0.0
+lbig5a,lay blue in g five again,i lay blue in g five again,0.16666666666666666
+lbim6n,lay blue in m six now,i lay blue and m six now,0.3333333333333333
+lbim7s,lay blue in m seven soon,laid blue in m seven soon,0.16666666666666666
+lbim8p,lay blue in m eight please,lay blue in mates please,0.3333333333333333
+lbim9a,lay blue in m nine again,i lay blue in m nine again,0.16666666666666666
+lbit1s,lay blue in t one soon,lay blue in t one soon,0.0
+lbit2p,lay blue in t two please,lay blue in t two please,0.0
+lbit3a,lay blue in t three again,lay blue in t three again,0.0
+lbitzn,lay blue in t zero now,i lay blue in t zero now,0.16666666666666666
+lbwb1s,lay blue with b one soon,later blue with b one soon,0.16666666666666666
+lbwb2p,lay blue with b two please,lay blue with b two please,0.0
+lbwb3a,lay blue with b three again,laid blue with b three again,0.16666666666666666
+lbwbzn,lay blue with b zero now,larry blue with p zero now,0.3333333333333333
+lbwh4n,lay blue with h four now,i lay blue with h four now,0.16666666666666666
+lbwh5s,lay blue with h five soon,lay blue with h five soon,0.0
+lbwh6p,lay blue with h six please,lay blue with h six please,0.0
+lbwh7a,lay blue with h seven again,lay blue with h seven again,0.0
+lbwn8n,lay blue with n eight now,lay blue with an eight now,0.16666666666666666
+lbwn9s,lay blue with n nine soon,lay blue with enron soon,0.3333333333333333
+lbwo1a,lay blue with o one again,lately with zero one again,0.5
+lbwozp,lay blue with o zero please,lay blue with zero please,0.16666666666666666
+lbwu2n,lay blue with u two now,lay blue with you too now,0.3333333333333333
+lbwu3s,lay blue with u three soon,lay blue with you three soon,0.16666666666666666
+lbwu4p,lay blue with u four please,lay blue with you for please,0.3333333333333333
+lbwu5a,lay blue with u five again,i lay blue with you five again,0.3333333333333333
+lgac1s,lay green at c one soon,lake green at c one soon,0.16666666666666666
+lgac2p,lay green at c two please,lake green at c two please,0.16666666666666666
+lgac3a,lay green at c three again,lay green at c three again,0.0
+lgaczn,lay green at c zero now,lake erina c zero now,0.5
+lgai4n,lay green at i four now,lay greens i for now,0.5
+lgai5s,lay green at i five soon,lay green at i five soon,0.0
+lgai6p,lay green at i six please,lay green is ice six please,0.3333333333333333
+lgai7a,lay green at i seven again,lake green at nine seven again,0.3333333333333333
+lgao8n,lay green at o eight now,lake green at zero eight now,0.3333333333333333
+lgao9s,lay green at o nine soon,ill see you in the next video,1.1666666666666667
+lgap1a,lay green at p one again,lake greenwood p one again,0.5
+lgapzp,lay green at p zero please,lay green at p zero please,0.0
+lgav2n,lay green at v two now,late green at ft two now,0.3333333333333333
+lgav3s,lay green at v three soon,lay green at fee three soon,0.16666666666666666
+lgav4p,lay green at v four please,lay green at v four please,0.0
+lgav5a,lay green at v five again,i laid green at v five again,0.3333333333333333
+lgbc4n,lay green by c four now,lake green by c four now,0.16666666666666666
+lgbc5s,lay green by c five soon,lay green by c five soon,0.0
+lgbc6p,lay green by c six please,lake green by c six please,0.16666666666666666
+lgbc7a,lay green by c seven again,lake green by seven oclock,0.5
+lgbi8n,lay green by i eight now,lay green by i eightth now,0.16666666666666666
+lgbi9s,lay green by i nine soon,ill see you next time,1.0
+lgbj1a,lay green by j one again,i lay green but they won again,0.6666666666666666
+lgbjzp,lay green by j zero please,lay green by j zero please,0.0
+lgbp2n,lay green by p two now,i lay green by p two now,0.16666666666666666
+lgbp3s,lay green by p three soon,lay green by p three soon,0.0
+lgbp4p,lay green by p four please,i ate green by p four please,0.3333333333333333
+lgbp5a,lay green by p five again,lay green by p five again,0.0
+lgbv6n,lay green by v six now,lay green by v six now,0.0
+lgbv7s,lay green by v seven soon,lay green by v seven soon,0.0
+lgbv8p,lay green by v eight please,lay green by v eight please,0.0
+lgbv9a,lay green by v nine again,lake green by v nine again,0.16666666666666666
+lgib6n,lay green in b six now,lay green in b six now,0.0
+lgib7s,lay green in b seven soon,lay green at b seven soon,0.16666666666666666
+lgib8p,lay green in b eight please,lay green in b eight please,0.0
+lgib9a,lay green in b nine again,lay green in b nine again,0.0
+lgii1s,lay green in i one soon,lay green and i won soon,0.3333333333333333
+lgii2p,lay green in i two please,lay green in it too please,0.3333333333333333
+lgii3a,lay green in i three again,lay green in i three again,0.0
+lgiizn,lay green in i zero now,i lay green in zero zero now,0.3333333333333333
+lgio4n,lay green in o four now,late green at zero four now,0.5
+lgio5s,lay green in o five soon,lay green in open five soon,0.16666666666666666
+lgio6p,lay green in o six please,lay green in zero six please,0.16666666666666666
+lgio7a,lay green in o seven again,lay green in zero seven again,0.16666666666666666
+lgiu8n,lay green in u eight now,lay green in you now,0.3333333333333333
+lgiu9s,lay green in u nine soon,lake green in you nine soon,0.3333333333333333
+lgiv1a,lay green in v one again,im ray green in v one again,0.3333333333333333
+lgivzp,lay green in v zero please,lay green in v zero please,0.0
+lgwc8n,lay green with c eight now,lay green with c eight now,0.0
+lgwc9s,lay green with c nine soon,lake green with c nine soon,0.16666666666666666
+lgwd1a,lay green with d one again,lay green with d one again,0.0
+lgwdzp,lay green with d zero please,late green with d zero please,0.16666666666666666
+lgwj2n,lay green with j two now,larry green with the j two now,0.3333333333333333
+lgwj3s,lay green with j three soon,i lay green with j three soon,0.16666666666666666
+lgwj4p,lay green with j four please,lay green with j four please,0.0
+lgwj5a,lay green with j five again,lake green with j five again,0.16666666666666666
+lgwp6n,lay green with p six now,laid green with p six now,0.16666666666666666
+lgwp7s,lay green with p seven soon,ill see you in the next one,1.1666666666666667
+lgwp8p,lay green with p eight please,lay green with p eights please,0.16666666666666666
+lgwp9a,lay green with p nine again,lay green with p nine again,0.0
+lgwx1s,lay green with x one soon,ill be back soon,0.8333333333333334
+lgwx2p,lay green with x two please,lake green with x two please,0.16666666666666666
+lgwx3a,lay green with x three again,i lay green with x three again,0.16666666666666666
+lgwxzn,lay green with x zero now,i lay green with xero now,0.5
+lraa8n,lay red at a eight now,lay red at a eight now,0.0
+lraa9s,lay red at a nine soon,lay red at a nine soon,0.0
+lrab1a,lay red at b one again,lay red at b one again,0.0
+lrabzp,lay red at b zero please,lay red at bzero please,0.3333333333333333
+lrah2n,lay red at h two now,lay rate at h two now,0.16666666666666666
+lrah3s,lay red at h three soon,lay red at h three soon,0.0
+lrah4p,lay red at h four please,i lay red h four please,0.3333333333333333
+lrah5a,lay red at h five again,lay red at h five again,0.0
+lran6n,lay red at n six now,i lay red at n six now,0.16666666666666666
+lran7s,lay red at n seven soon,ill lay right at n seven soon,0.3333333333333333
+lran8p,lay red at n eight please,lay red at eight please,0.16666666666666666
+lran9a,lay red at n nine again,lay red at n nine again,0.0
+lrau1s,lay red at u one soon,ill lay right at you one soon,0.5
+lrau2p,lay red at u two please,lay red at the youtube please,0.3333333333333333
+lrau3a,lay red at u three again,ill lay right at you three again,0.5
+lrauzn,lay red at u zero now,lay right at zero now,0.3333333333333333
+lrbb2n,lay red by b two now,i lay red by b two now,0.16666666666666666
+lrbb3s,lay red by b three soon,ill lay red by b three soon,0.16666666666666666
+lrbb4p,lay red by b four please,lay road by b four please,0.16666666666666666
+lrbb5a,lay red by b five again,lay red by b five again,0.0
+lrbh6n,lay red by h six now,i lay red by h six now,0.16666666666666666
+lrbh7s,lay red by h seven soon,lay red by h seven soon,0.0
+lrbh8p,lay red by h eight please,lay red by h eight please,0.0
+lrbh9a,lay red by h nine again,lay read by h nine again,0.16666666666666666
+lrbo1s,lay red by o one soon,lay raid by zero one soon,0.3333333333333333
+lrbo2p,lay red by o two please,lay red by zero two please,0.16666666666666666
+lrbo3a,lay red by o three again,lay red by zero three again,0.16666666666666666
+lrbozn,lay red by o zero now,lay red by zero now,0.16666666666666666
+lrbu4n,lay red by u four now,they read by you for now,0.6666666666666666
+lrbu5s,lay red by u five soon,ill lay red by you five soon,0.3333333333333333
+lrbu6p,lay red by u six please,lay red by you six please,0.16666666666666666
+lrbu7a,lay red by u seven again,lay red by you seven again,0.16666666666666666
+lria4n,lay red in a four now,i lay red in a four now,0.16666666666666666
+lria5s,lay red in a five soon,lay red in a five soon,0.0
+lria6p,lay red in a six please,lay right in a six please,0.16666666666666666
+lria7a,lay red in a seven again,lay read in eight seven again,0.3333333333333333
+lrig8n,lay red in g eight now,lay red in g eight now,0.0
+lrig9s,lay red in g nine soon,lay read in g nine soon,0.16666666666666666
+lrih1a,lay red in h one again,lay red in h one again,0.0
+lrihzp,lay red in h zero please,lay road in hcl right please,0.5
+lrin2n,lay red in n two now,lay rating n two now,0.3333333333333333
+lrin3s,lay red in n three soon,lay rode in end three soon,0.3333333333333333
+lrin4p,lay red in n four please,lay right in n four please,0.16666666666666666
+lrin5a,lay red in n five again,lay rate in n five again,0.16666666666666666
+lrit6n,lay red in t six now,lay raid in t six now,0.16666666666666666
+lrit7s,lay red in t seven soon,ill lay right into you seven soon,0.6666666666666666
+lrit8p,lay red in t eight please,lay right in t eight please,0.16666666666666666
+lrit9a,lay red in t nine again,lay rode in t nine again,0.16666666666666666
+lrwb6n,lay red with b six now,i lay red with b six now,0.16666666666666666
+lrwb7s,lay red with b seven soon,lay red with b seven soon,0.0
+lrwb8p,lay red with b eight please,lay red with b eight please,0.0
+lrwb9a,lay red with b nine again,lay red with b nine again,0.0
+lrwi1s,lay red with i one soon,lay red with i one soon,0.0
+lrwi2p,lay red with i two please,i lay red with one two please,0.3333333333333333
+lrwi3a,lay red with i three again,i lay red with i three again,0.16666666666666666
+lrwizn,lay red with i zero now,lay rate with i zero now,0.16666666666666666
+lrwo4n,lay red with o four now,laying red with zero four now,0.3333333333333333
+lrwo5s,lay red with o five soon,lay red with zero five soon,0.16666666666666666
+lrwo6p,lay red with o six please,lay red with zero six please,0.16666666666666666
+lrwo7a,lay red with o seven again,lay red with zero seven again,0.16666666666666666
+lrwu8n,lay red with u eight now,lay ride with you eight now,0.3333333333333333
+lrwu9s,lay red with u nine soon,i lay red with you nine soon,0.3333333333333333
+lrwv1a,lay red with v one again,lay red with f one again,0.16666666666666666
+lrwvzp,lay red with v zero please,lay rate with vzero please,0.5
+lwab4n,lay white at b four now,lay white that befall now,0.5
+lwab5s,lay white at b five soon,lay white at b five soon,0.0
+lwab6p,lay white at b six please,lay white at b six please,0.0
+lwab7a,lay white at b seven again,ill leave you here to b seven again,0.8333333333333334
+lwah8n,lay white at h eight now,lay white at h eight now,0.0
+lwah9s,lay white at h nine soon,lay white at eight nine soon,0.16666666666666666
+lwai1a,lay white at i one again,lay white at i one again,0.0
+lwaizp,lay white at i zero please,lay white to die zero please,0.3333333333333333
+lwao2n,lay white at o two now,lay white at zero two now,0.16666666666666666
+lwao3s,lay white at o three soon,i lay white at zero three soon,0.3333333333333333
+lwao4p,lay white at o four please,lay white on o four please,0.16666666666666666
+lwao5a,lay white at o five again,lay white at zero eight five again,0.3333333333333333
+lwau6n,lay white at u six now,lay white at you six now,0.16666666666666666
+lwau7s,lay white at u seven soon,i lay white at you seven soon,0.3333333333333333
+lwau8p,lay white at u eight please,lane white at the u eight please,0.3333333333333333
+lwau9a,lay white at u nine again,i lay white at the u nine again,0.3333333333333333
+lwbb8n,lay white by b eight now,lee white by b eight now,0.16666666666666666
+lwbb9s,lay white by b nine soon,lay white by benaun soon,0.3333333333333333
+lwbc1a,lay white by c one again,lay white by c one again,0.0
+lwbczp,lay white by c zero please,lay white past czero please,0.5
+lwbi2n,lay white by i two now,lay white by i two now,0.0
+lwbi3s,lay white by i three soon,lay white by i three soon,0.0
+lwbi4p,lay white by i four please,lay white by iforplease,0.5
+lwbi5a,lay white by i five again,lay white by if i again,0.3333333333333333
+lwbo6n,lay white by o six now,lay white by zero six now,0.16666666666666666
+lwbo7s,lay white by o seven soon,lay white by zero seven soon,0.16666666666666666
+lwbo8p,lay white by o eight please,ill lay you white by zero eight please,0.5
+lwbo9a,lay white by o nine again,lay white by zero nine again,0.16666666666666666
+lwbv1s,lay white by v one soon,i lay white by v one soon,0.16666666666666666
+lwbv2p,lay white by v two please,lay white by v two please,0.0
+lwbv3a,lay white by v three again,i lay white by v three again,0.16666666666666666
+lwbvzn,lay white by v zero now,lay white by vzero now,0.3333333333333333
+lwib1s,lay white in b one soon,i lay white in b one soon,0.16666666666666666
+lwib2p,lay white in b two please,lay white in bt two please,0.16666666666666666
+lwib3a,lay white in b three again,lay white in b three again,0.0
+lwibzn,lay white in b zero now,lay white and bzero now,0.5
+lwih4n,lay white in h four now,lay white in h four now,0.0
+lwih5s,lay white in h five soon,lay white in h five soon,0.0
+lwih6p,lay white in h six please,lay white in h six please,0.0
+lwih7a,lay white in h seven again,i lay white in h seven again,0.16666666666666666
+lwin8n,lay white in n eight now,lay white in n eight now,0.0
+lwin9s,lay white in n nine soon,lay white and enlin soon,0.5
+lwio1a,lay white in o one again,lay white in zero one again,0.16666666666666666
+lwiozp,lay white in o zero please,lay white in a zero please,0.16666666666666666
+lwiu2n,lay white in u two now,lay white in you too now,0.3333333333333333
+lwiu3s,lay white in u three soon,ill be white in new three soon,0.5
+lwiu4p,lay white in u four please,lay white and you fall please,0.5
+lwiu5a,lay white in u five again,lay white to new five again,0.3333333333333333
+lwwc2n,lay white with c two now,lay white with c two now,0.0
+lwwc3s,lay white with c three soon,ali white will see three soon,0.5
+lwwc4p,lay white with c four please,lay white with c four please,0.0
+lwwc5a,lay white with c five again,lay white with c five again,0.0
+lwwi6n,lay white with i six now,lay white with ice six now,0.16666666666666666
+lwwi7s,lay white with i seven soon,lay white with the ivy seven soon,0.3333333333333333
+lwwi8p,lay white with i eight please,lay white with i eight please,0.0
+lwwi9a,lay white with i nine again,lay white with e nine again,0.16666666666666666
+lwwp1s,lay white with p one soon,lay white with p one soon,0.0
+lwwp2p,lay white with p two please,lay white with p two please,0.0
+lwwp3a,lay white with p three again,lay white with p three again,0.0
+lwwpzn,lay white with p zero now,lay whites with p zero now,0.16666666666666666
+lwwv4n,lay white with v four now,lay white with a v four now,0.16666666666666666
+lwwv5s,lay white with v five soon,i lay white with v five soon,0.16666666666666666
+lwwv6p,lay white with v six please,lay white with three six please,0.16666666666666666
+lwwv7a,lay white with v seven again,lay white with v seven again,0.0
+pbaf1s,place blue at f one soon,place blue at f one soon,0.0
+pbaf2p,place blue at f two please,place blue at f two please,0.0
+pbaf3a,place blue at f three again,place blue with f three again,0.16666666666666666
+pbafzn,place blue at f zero now,place blue at f zero now,0.0
+pbal4n,place blue at l four now,place blue with el four now,0.3333333333333333
+pbal5s,place blue at l five soon,place blue with l five soon,0.16666666666666666
+pbal6p,place blue at l six please,place blue with l six please,0.16666666666666666
+pbal7a,place blue at l seven again,place blue at l seven again,0.0
+pbar8n,place blue at r eight now,place blue with r eight now,0.16666666666666666
+pbar9s,place blue at r nine soon,place blue at r nine soon,0.0
+pbas1a,place blue at s one again,place blue with s one again,0.16666666666666666
+pbaszp,place blue at s zero please,place blue at zero please,0.16666666666666666
+pbaz2n,place blue at z two now,place blue at z two now,0.0
+pbaz3s,place blue at z three soon,place blue at z three soon,0.0
+pbaz4p,place blue at z four please,place blue out at z four please,0.16666666666666666
+pbaz5a,place blue at z five again,place blue by z five again,0.16666666666666666
+pbbf4n,place blue by f four now,place blue by f four now,0.0
+pbbf5s,place blue by f five soon,place blue by f five soon,0.0
+pbbf6p,place blue by f six please,place blue by f six please,0.0
+pbbf7a,place blue by f seven again,place blue by f seven again,0.0
+pbbl8n,place blue by l eight now,place blue by eightth now,0.3333333333333333
+pbbl9s,place blue by l nine soon,place blue by el nino soon,0.3333333333333333
+pbbm1a,place blue by m one again,placed blue by m one again,0.16666666666666666
+pbbmzp,place blue by m zero please,place blue by m zero please,0.0
+pbbs2n,place blue by s two now,place blue by s two now,0.0
+pbbs3s,place blue by s three soon,place blue by s three soon,0.0
+pbbs4p,place blue by s four please,place blue by sf please,0.3333333333333333
+pbbs5a,place blue by s five again,place blue by s five again,0.0
+pbbz6n,place blue by z six now,place blue by z six now,0.0
+pbbz7s,place blue by z seven soon,place blue by z seven soon,0.0
+pbbz8p,place blue by z eight please,place blue by said eight please,0.16666666666666666
+pbbz9a,place blue by z nine again,place blue by z nine again,0.0
+pbie6n,place blue in e six now,place blue in e six now,0.0
+pbie7s,place blue in e seven soon,place blue in e seven soon,0.0
+pbie8p,place blue in e eight please,place blue in e eight please,0.0
+pbie9a,place blue in e nine again,place blue in e nine again,0.0
+pbil1s,place blue in l one soon,place blue in l one soon,0.0
+pbil2p,place blue in l two please,place blue in l two please,0.0
+pbil3a,place blue in l three again,place blue in l three again,0.0
+pbilzn,place blue in l zero now,place blue in l zero now,0.0
+pbir4n,place blue in r four now,place blue in r four now,0.0
+pbir5s,place blue in r five soon,placed blue in r five soon,0.16666666666666666
+pbir6p,place blue in r six please,place blue in r six please,0.0
+pbir7a,place blue in r seven again,place blue in r seven again,0.0
+pbiy8n,place blue in y eight now,place blue in y eightth now,0.16666666666666666
+pbiy9s,place blue in y nine soon,place blue in white nine soon,0.16666666666666666
+pbiz1a,place blue in z one again,place blue in z one again,0.0
+pbizzp,place blue in z zero please,place blue in z zero please,0.0
+pbwf8n,place blue with f eight now,place blue with f eight now,0.0
+pbwf9s,place blue with f nine soon,place blue with f nine soon,0.0
+pbwg1a,place blue with g one again,place blue with g one again,0.0
+pbwgzp,place blue with g zero please,place blue with gzero please,0.3333333333333333
+pbwm2n,place blue with m two now,place blue with m two now,0.0
+pbwm3s,place blue with m three soon,place blue with m three soon,0.0
+pbwm4p,place blue with m four please,place blue with m four please,0.0
+pbwm5a,place blue with m five again,place blue with m five again,0.0
+pbws6n,place blue with s six now,place blue with s six now,0.0
+pbws7s,place blue with s seven soon,place blue with s seven soon,0.0
+pbws8p,place blue with s eight please,place blue with s eight,0.16666666666666666
+pbws9a,place blue with s nine again,place blue with s nine again,0.0
+pgaa4n,place green at a four now,place green at a four now,0.0
+pgaa5s,place green at a five soon,play screen at a five soon,0.3333333333333333
+pgaa6p,place green at a six please,play screen at a six please,0.3333333333333333
+pgaa7a,place green at a seven again,play screen at a seven again,0.3333333333333333
+pgag8n,place green at g eight now,place green at g eight now,0.0
+pgag9s,place green at g nine soon,place green at g nine soon,0.0
+pgah1a,place green at h one again,ill place green at h one again,0.16666666666666666
+pgahzp,place green at h zero please,place green at hzr please,0.3333333333333333
+pgan2n,place green at n two now,play screen at n two now,0.3333333333333333
+pgan3s,place green at n three soon,place green at end three soon,0.16666666666666666
+pgan4p,place green at n four please,place green at n four please,0.0
+pgan5a,place green at n five again,place green at n five again,0.0
+pgat6n,place green at t six now,place green at t six now,0.0
+pgat7s,place green at t seven soon,place green at t seven soon,0.0
+pgat8p,place green at t eight please,place green at t eight please,0.0
+pgat9a,place green at t nine again,place green at t nine again,0.0
+pgba8n,place green by a eight now,place green by eight eight now,0.16666666666666666
+pgba9s,place green by a nine soon,play screen by a nine soon,0.3333333333333333
+pgbb1a,place green by b one again,place green by b one again,0.0
+pgbbzp,place green by b zero please,place cream by b zero please,0.16666666666666666
+pgbh2n,place green by h two now,place green by h two now,0.0
+pgbh3s,place green by h three soon,place green by h three soon,0.0
+pgbh4p,place green by h four please,place green by h four please,0.0
+pgbh5a,place green by h five again,place green by h five again,0.0
+pgbn6n,place green by n six now,place green by en six now,0.16666666666666666
+pgbn7s,place green by n seven soon,place green by en seven soon,0.16666666666666666
+pgbn8p,place green by n eight please,place green by n eight please,0.0
+pgbn9a,place green by n nine again,place green by enron again,0.3333333333333333
+pgbu1s,place green by u one soon,play screen by you soon,0.6666666666666666
+pgbu2p,place green by u two please,play screen by youtube please,0.6666666666666666
+pgbu3a,place green by u three again,place queen by you three again,0.3333333333333333
+pgbuzn,place green by u zero now,place green by use of now,0.3333333333333333
+pgia1s,place green in a one soon,place green in a one soon,0.0
+pgia2p,place green in a two please,place green in a two please,0.0
+pgia3a,place green in a three again,place green in a three again,0.0
+pgiazn,place green in a zero now,im going to play screen at a zero now,1.0
+pgig4n,place green in g four now,place green in g four now,0.0
+pgig5s,place green in g five soon,place green in g five soon,0.0
+pgig6p,place green in g six please,place green in g six please,0.0
+pgig7a,place green in g seven again,place green in g seven again,0.0
+pgim8n,place green in m eight now,place green in m eight now,0.0
+pgim9s,place green in m nine soon,ill see you next time,1.0
+pgin1a,place green in n one again,play screen in one again,0.5
+pginzp,place green in n zero please,place green in n zero please,0.0
+pgit2n,place green in t two now,place green in t two now,0.0
+pgit3s,place green in t three soon,place green and t three soon,0.16666666666666666
+pgit4p,place green in t four please,place green in t four please,0.0
+pgit5a,place green in t five again,place green in t five again,0.0
+pgwb2n,place green with b two now,place green with b two now,0.0
+pgwb3s,place green with b three soon,place green with b three soon,0.0
+pgwb4p,place green with b four please,place green with b four please,0.0
+pgwb5a,place green with b five again,placed green with b five again,0.16666666666666666
+pgwh6n,place green with h six now,im playing screen with h six now,0.5
+pgwh7s,place green with h seven soon,place green with h seven soon,0.0
+pgwh8p,place green with h eight please,place green with h eight please,0.0
+pgwh9a,place green with h nine again,place green with h nine again,0.0
+pgwo1s,place green with o one soon,place green with zero one soon,0.16666666666666666
+pgwo2p,place green with o two please,place queen at zero two please,0.5
+pgwo3a,place green with o three again,place green with zero three again,0.16666666666666666
+pgwozn,place green with o zero now,place green with ozero now,0.3333333333333333
+pgwu4n,place green with u four now,play screen with you four now,0.5
+pgwu5s,place green with u five soon,place green with you five soon,0.16666666666666666
+pgwu6p,place green with u six please,place green with you six please,0.16666666666666666
+pgwu7a,place green with u seven again,place screen with u seven again,0.16666666666666666
+praf6n,place red at f six now,place your head at f six now,0.3333333333333333
+praf7s,place red at f seven soon,place red at f seven soon,0.0
+praf8p,place red at f eight please,place rate at f eight please,0.16666666666666666
+praf9a,place red at f nine again,place red at f nine again,0.0
+pram1s,place red at m one soon,place rate at m one soon,0.16666666666666666
+pram2p,place red at m two please,place rate at m two please,0.16666666666666666
+pram3a,place red at m three again,place rate at m three again,0.16666666666666666
+pramzn,place red at m zero now,place rate at mzero now,0.5
+pras4n,place red at s four now,place read at s four now,0.16666666666666666
+pras5s,place red at s five soon,place red at s five soon,0.0
+pras6p,place red at s six please,place red at s six please,0.0
+pras7a,place red at s seven again,place red at s seven again,0.0
+praz8n,place red at z eight now,place red at eight now,0.16666666666666666
+praz9s,place red at z nine soon,place where thats at,0.8333333333333334
+prbg1s,place red by g one soon,place rode by g one soon,0.16666666666666666
+prbg2p,place red by g two please,place road by g two please,0.16666666666666666
+prbg3a,place red by g three again,place road by g three again,0.16666666666666666
+prbgzn,place red by g zero now,place for it by geezer now,0.6666666666666666
+prbm4n,place red by m four now,place red by m four now,0.0
+prbm5s,place red by m five soon,place for aid by m five soon,0.3333333333333333
+prbm6p,place red by m six please,place red by m six please,0.0
+prbm7a,place red by m seven again,place read by m seven again,0.16666666666666666
+prbs8n,place red by s eight now,place read by sait now,0.5
+prbs9s,place red by s nine soon,place read by s nine soon,0.16666666666666666
+prbt1a,place red by t one again,place red by t one again,0.0
+prbtzp,place red by t zero please,place for it by t zero please,0.3333333333333333
+prif2n,place red in f two now,place red in f two now,0.0
+prif3s,place red in f three soon,placed right in f three soon,0.3333333333333333
+prif4p,place red in f four please,place road in f four please,0.16666666666666666
+prif5a,place red in f five again,place rate in f five again,0.16666666666666666
+pril6n,place red in l six now,place fred in old six now,0.3333333333333333
+pril7s,place red in l seven soon,place red in l seven soon,0.0
+pril8p,place red in l eight please,place red in l eight please,0.0
+pril9a,place red in l nine again,place red in l nine again,0.0
+pris1s,place red in s one soon,place red in s one soon,0.0
+pris2p,place red in s two please,place red in s two please,0.0
+pris3a,place red in s three again,placed road in s three again,0.3333333333333333
+priszn,place red in s zero now,place rate in s zero now,0.16666666666666666
+priz4n,place red in z four now,place red in z four now,0.0
+priz5s,place red in z five soon,placed for aid in set five soon,0.6666666666666666
+priz6p,place red in z six please,place right in z six place,0.3333333333333333
+priz7a,place red in z seven again,place rate in z seven again,0.16666666666666666
+prwa1s,place red with a one soon,place red with a one soon,0.0
+prwa2p,place red with a two please,place red with a two please,0.0
+prwa3a,place red with a three again,place red with a three again,0.0
+prwazn,place red with a zero now,place road with a zero now,0.16666666666666666
+prwg4n,place red with g four now,place root with g four now,0.16666666666666666
+prwg5s,place red with g five soon,place red with g five soon,0.0
+prwg6p,place red with g six please,place red with g six please,0.0
+prwg7a,place red with g seven again,place for ed with g seven again,0.3333333333333333
+prwm8n,place red with m eight now,place red with m eight now,0.0
+prwm9s,place red with m nine soon,place for aid with m nine soon,0.3333333333333333
+prwn1a,place red with n one again,place red with n one again,0.0
+prwnzp,place red with n zero please,place red with n zero please,0.0
+prwt2n,place red with t two now,place rode with t two now,0.16666666666666666
+prwt3s,place red with t three soon,place road with t three soon,0.16666666666666666
+prwt4p,place red with t four please,place red with t four please,0.0
+prwt5a,place red with t five again,place red with t again,0.16666666666666666
+pwaa1a,place white at a one again,place white today one again,0.3333333333333333
+pwaazp,place white at a zero please,place white at a zero please,0.0
+pwag2n,place white at g two now,place white at g two now,0.0
+pwag3s,place white at g three soon,place white at g three soon,0.0
+pwag4p,place white at g four please,place white at g four please,0.0
+pwag5a,place white at g five again,place white at g five again,0.0
+pwam6n,place white at m six now,place white at m six now,0.0
+pwam7s,place white at m seven soon,place white at the m seven soon,0.16666666666666666
+pwam8p,place white at m eight please,place white on their mate please,0.5
+pwam9a,place white at m nine again,placewide to m nine again,0.5
+pwat1s,place white at t one soon,place white at t one soon,0.0
+pwat2p,place white at t two please,place white at t two please,0.0
+pwat3a,place white at t three again,place your t three again,0.3333333333333333
+pwatzn,place white at t zero now,placed white at t zero now,0.16666666666666666
+pwba2n,place white by a two now,place white by a two now,0.0
+pwba3s,place white by a three soon,place whites by a three soon,0.16666666666666666
+pwba4p,place white by a four please,place white by a four please,0.0
+pwba5a,place white by a five again,place white by a five again,0.0
+pwbg6n,place white by g six now,place white by g six now,0.0
+pwbg7s,place white by g seven soon,place white by g seven soon,0.0
+pwbg8p,place white by g eight please,place white bungee eight please,0.3333333333333333
+pwbg9a,place white by g nine again,place white by g nine again,0.0
+pwbn1s,place white by n one soon,place white by en one soon,0.16666666666666666
+pwbn2p,place white by n two please,place white by entree please,0.3333333333333333
+pwbn3a,place white by n three again,place white button three again,0.3333333333333333
+pwbnzn,place white by n zero now,place white by n zero now,0.0
+pwbt4n,place white by t four now,place white by t four now,0.0
+pwbt5s,place white by t five soon,place white by t five soon,0.0
+pwbt6p,place white by t six please,place white by t six please,0.0
+pwbt7a,place white by t seven again,place white by t seven again,0.0
+pwif8n,place white in f eight now,place white in f eight now,0.0
+pwif9s,place white in f nine soon,place white in f nine soon,0.0
+pwig1a,place white in g one again,placewise in g one again,0.3333333333333333
+pwigzp,place white in g zero please,place white in gzero please,0.3333333333333333
+pwim2n,place white in m two now,place white in m two now,0.0
+pwim3s,place white in m three soon,place white in m three soon,0.0
+pwim4p,place white in m four please,place white in mf four please,0.16666666666666666
+pwim5a,place white in m five again,place white in m five again,0.0
+pwis6n,place white in s six now,place white in the s six now,0.16666666666666666
+pwis7s,place white in s seven soon,place white in s seven soon,0.0
+pwis8p,place white in s eight please,place white in sa eight please,0.16666666666666666
+pwis9a,place white in s nine again,place whites in s nine again,0.16666666666666666
+pwwa6n,place white with a six now,place white with a six now,0.0
+pwwa7s,place white with a seven soon,place white with a seven soon,0.0
+pwwa8p,place white with a eight please,place white with a eight please,0.0
+pwwa9a,place white with a nine again,place white with a nine again,0.0
+pwwh1s,place white with h one soon,place white with h one soon,0.0
+pwwh2p,place white with h two please,place white with h two please,0.0
+pwwh3a,place white with h three again,place white with h three again,0.0
+pwwhzn,place white with h zero now,place white with h zero now,0.0
+pwwn4n,place white with n four now,place white with n four now,0.0
+pwwn5s,place white with n five soon,place white with n five soon,0.0
+pwwn6p,place white with n six please,place white with n six please,0.0
+pwwn7a,place white with n seven again,place white with n seven again,0.0
+pwwt8n,place white with t eight now,place white with t eight now,0.0
+pwwt9s,place white with t nine soon,place white with a t nine soon,0.16666666666666666
+pwwu1a,place white with u one again,place white with you one again,0.16666666666666666
+pwwuzp,place white with u zero please,place wife with uzero please,0.5
+sbad4n,set blue at d four now,set blue at d four now,0.0
+sbad5s,set blue at d five soon,set blue at d five soon,0.0
+sbad6p,set blue at d six please,set blue at d six please,0.0
+sbad7a,set blue at d seven again,set blue at seven again,0.16666666666666666
+sbaj8n,set blue at j eight now,set blue watch a eight now,0.3333333333333333
+sbaj9s,set blue at j nine soon,september with a nine soon,0.6666666666666666
+sbak1a,set blue at k one again,set blue at k one again,0.0
+sbakzp,set blue at k zero please,set blue at k zero please,0.0
+sbaq2n,set blue at q two now,set blue at q two now,0.0
+sbaq3s,set blue at q three soon,set blue at q three soon,0.0
+sbaq4p,set blue at q four please,set blue at q four please,0.0
+sbaq5a,set blue at q five again,set blue at q five again,0.0
+sbax6n,set blue at x six now,set blue at x six now,0.0
+sbax7s,set blue at x seven soon,except blue with x seven soon,0.3333333333333333
+sbax8p,set blue at x eight please,settle with x eight please,0.5
+sbax9a,set blue at x nine again,set blue at x nine again,0.0
+sbbd8n,set blue by d eight now,set blue by the eighth now,0.3333333333333333
+sbbd9s,set blue by d nine soon,set blue by d nine soon,0.0
+sbbe1a,set blue by e one again,set blue by e one again,0.0
+sbbezp,set blue by e zero please,set blue by zero please,0.16666666666666666
+sbbk2n,set blue by k two now,i set blue buck eight two now,0.5
+sbbk3s,set blue by k three soon,set blue by k three soon,0.0
+sbbk4p,set blue by k four please,set blue by k four please,0.0
+sbbk5a,set blue by k five again,set blue by k five again,0.0
+sbbq6n,set blue by q six now,set blue by q six now,0.0
+sbbq7s,set blue by q seven soon,set blue by q seven soon,0.0
+sbbq8p,set blue by q eight please,set blue by q eight please,0.0
+sbbq9a,set blue by q nine again,set blue by q nine again,0.0
+sbby1s,set blue by y one soon,except blue by why one soon,0.3333333333333333
+sbby2p,set blue by y two please,set blue by y two please,0.0
+sbby3a,set blue by y three again,set blue by y three again,0.0
+sbbyzn,set blue by y zero now,set blue by y zero now,0.0
+sbid1s,set blue in d one soon,set blue in d one soon,0.0
+sbid2p,set blue in d two please,set blue in dt two please,0.16666666666666666
+sbid3a,set blue in d three again,set blue in d three again,0.0
+sbidzn,set blue in d zero now,set blue in tzero now,0.3333333333333333
+sbij4n,set blue in j four now,set blue in j four now,0.0
+sbij5s,set blue in j five soon,set blue in j five soon,0.0
+sbij6p,set blue in j six please,set blue in j six please,0.0
+sbij7a,set blue in j seven again,set blue in j seven again,0.0
+sbip8n,set blue in p eight now,i set blue in p eight now,0.16666666666666666
+sbip9s,set blue in p nine soon,set blue in p nine soon,0.0
+sbiq1a,set blue in q one again,set blue in q one again,0.0
+sbiqzp,set blue in q zero please,set blue in q zero please,0.0
+sbix2n,set blue in x two now,set blue and x two now,0.16666666666666666
+sbix3s,set blue in x three soon,set blue in x three soon,0.0
+sbix4p,set blue in x four please,settle blue and x four please,0.3333333333333333
+sbix5a,set blue in x five again,ill set blue and x five again,0.3333333333333333
+sbwe2n,set blue with e two now,set blue with e two now,0.0
+sbwe3s,set blue with e three soon,settle with e three soon,0.3333333333333333
+sbwe4p,set blue with e four please,set blue with e four please,0.0
+sbwe5a,set blue with e five again,set blue with e five again,0.0
+sbwk6n,set blue with k six now,set blue with case six now,0.16666666666666666
+sbwk7s,set blue with k seven soon,set blue with k seven soon,0.0
+sbwk8p,set blue with k eight please,set blue with k eight please,0.0
+sbwk9a,set blue with k nine again,set blue with k nine again,0.0
+sbwr1s,set blue with r one soon,settle with r one soon,0.3333333333333333
+sbwr2p,set blue with r two please,set blue with r two please,0.0
+sbwr3a,set blue with r three again,set blue with r three again,0.0
+sbwrzn,set blue with r zero now,set blue with r zero now,0.0
+sbwy4n,set blue with y four now,set blue with y four now,0.0
+sbwy5s,set blue with y five soon,settled with wifi soon,0.6666666666666666
+sbwy6p,set blue with y six please,set blue with y six please,0.0
+sbwy7a,set blue with y seven again,i set blue with y seven again,0.16666666666666666
+sgaf2n,set green at f two now,set green at f two now,0.0
+sgaf3s,set green at f three soon,set green at f three soon,0.0
+sgaf4p,set green at f four please,set green at four please,0.16666666666666666
+sgaf5a,set green at f five again,set green at f five again,0.0
+sgal6n,set green at l six now,set green at l six now,0.0
+sgal7s,set green at l seven soon,set green at l seven soon,0.0
+sgal8p,set green at l eight please,set green at l eight please,0.0
+sgal9a,set green at l nine again,set green to l nine again,0.16666666666666666
+sgas1s,set green at s one soon,set green at s one soon,0.0
+sgas2p,set green at s two please,set green at s two please,0.0
+sgas3a,set green at s three again,set green at s three again,0.0
+sgaszn,set green at s zero now,set green at a zero now,0.16666666666666666
+sgaz4n,set green at z four now,im set green at z four now,0.16666666666666666
+sgaz5s,set green at z five soon,set green at z five soon,0.0
+sgaz6p,set green at z six please,set green at z six please,0.0
+sgaz7a,set green at z seven again,set green at z seven again,0.0
+sgbf6n,set green by f six now,set green by f six now,0.0
+sgbf7s,set green by f seven soon,set green by f seven soon,0.0
+sgbf8p,set green by f eight please,set green by f eight please,0.0
+sgbf9a,set green by f nine again,im set green by f nine again,0.16666666666666666
+sgbm1s,set green by m one soon,set green by m one soon,0.0
+sgbm2p,set green by m two please,set green by m two please,0.0
+sgbm3a,set green by m three again,set green by m three again,0.0
+sgbmzn,set green by m zero now,set green by m zero now,0.0
+sgbs4n,set green by s four now,set green by sf now,0.3333333333333333
+sgbs5s,set green by s five soon,set green by s five soon,0.0
+sgbs6p,set green by s six please,set green by f six please,0.16666666666666666
+sgbs7a,set green by s seven again,set green by s seven again,0.0
+sgbz8n,set green by z eight now,set green by z eight now,0.0
+sgbz9s,set green by z nine soon,set green by z nine soon,0.0
+sgie8n,set green in e eight now,set green at eight now,0.3333333333333333
+sgie9s,set green in e nine soon,set green and e nine soon,0.16666666666666666
+sgif1a,set green in f one again,set green and f one again,0.16666666666666666
+sgifzp,set green in f zero please,set green and f zero please,0.16666666666666666
+sgil2n,set green in l two now,set green and l two now,0.16666666666666666
+sgil3s,set green in l three soon,set green and l three soon,0.16666666666666666
+sgil4p,set green in l four please,set green at f four please,0.3333333333333333
+sgil5a,set green in l five again,set green and l five again,0.16666666666666666
+sgir6n,set green in r six now,set green at r six now,0.16666666666666666
+sgir7s,set green in r seven soon,set green in r seven soon,0.0
+sgir8p,set green in r eight please,set green in r eight please,0.0
+sgir9a,set green in r nine again,set green in online again,0.3333333333333333
+sgiz1s,set green in z one soon,set green in z one soon,0.0
+sgiz2p,set green in z two please,set green is there too please,0.5
+sgiz3a,set green in z three again,set green in z three again,0.0
+sgizzn,set green in z zero now,set green in zeta zero now,0.16666666666666666
+sgwg1s,set green with g one soon,set green with g one soon,0.0
+sgwg2p,set green with g two please,set green with g two please,0.0
+sgwg3a,set green with g three again,set green with g three again,0.0
+sgwgzn,set green with g zero now,set green with gzero now,0.3333333333333333
+sgwm4n,set green with m four now,set green with n four now,0.16666666666666666
+sgwm5s,set green with m five soon,set green with m five soon,0.0
+sgwm6p,set green with m six please,set green with m six please,0.0
+sgwm7a,set green with m seven again,set green with m seven again,0.0
+sgws8n,set green with s eight now,set green with s eight now,0.0
+sgws9s,set green with s nine soon,set green with s nine soon,0.0
+sgwt1a,set green with t one again,set green with t one again,0.0
+sgwtzp,set green with t zero please,set green with t zero please,0.0
+srae1s,set red at e one soon,set red at e one soon,0.0
+srae2p,set red at e two please,set red at e two please,0.0
+srae3a,set red at e three again,set red at e three again,0.0
+sraezn,set red at e zero now,set for it at e zero now,0.3333333333333333
+srak4n,set red at k four now,set red at k four now,0.0
+srak5s,set red at k five soon,set rate at k five soon,0.16666666666666666
+srak6p,set red at k six please,set red at k six please,0.0
+srak7a,set red at k seven again,set rate at k seven again,0.16666666666666666
+sraq8n,set red at q eight now,set right at q eight now,0.16666666666666666
+sraq9s,set red at q nine soon,set for it at q nine soon,0.3333333333333333
+srar1a,set red at r one again,set rated r one again,0.3333333333333333
+srarzp,set red at r zero please,set for reddit r zero please,0.3333333333333333
+sray2n,set red at y two now,set red at y two now,0.0
+sray3s,set red at y three soon,set red at y three soon,0.0
+sray4p,set red at y four please,set red at y four please,0.0
+sray5a,set red at y five again,set rate of wifi again,0.6666666666666666
+srbe4n,set red by e four now,set red by e four now,0.0
+srbe5s,set red by e five soon,set red by e five soon,0.0
+srbe6p,set red by e six please,set red by e six please,0.0
+srbe7a,set red by e seven again,ill set red by e seven again,0.16666666666666666
+srbk8n,set red by k eight now,set red by k eight now,0.0
+srbk9s,set red by k nine soon,set red by k nine soon,0.0
+srbl1a,set red by l one again,set red by elon again,0.3333333333333333
+srblzp,set red by l zero please,set red by l zero please,0.0
+srbr2n,set red by r two now,set red by r two now,0.0
+srbr3s,set red by r three soon,set read by r three soon,0.16666666666666666
+srbr4p,set red by r four please,set red by r four please,0.0
+srbr5a,set red by r five again,set red by r five again,0.0
+srby6n,set red by y six now,set raid by w six now,0.3333333333333333
+srby7s,set red by y seven soon,set read by y seven soon,0.16666666666666666
+srby8p,set red by y eight please,set red by y eight please,0.0
+srby9a,set red by y nine again,set red by white line again,0.3333333333333333
+srid6n,set red in d six now,set red and d six now,0.16666666666666666
+srid7s,set red in d seven soon,set red in d seven soon,0.0
+srid8p,set red in d eight please,set red and d eight please,0.16666666666666666
+srid9a,set red in d nine again,set red in d nine again,0.0
+srik1s,set red in k one soon,set road in k one soon,0.16666666666666666
+srik2p,set red in k two please,set riding k two please,0.3333333333333333
+srik3a,set red in k three again,set right in k three again,0.16666666666666666
+srikzn,set red in k zero now,set red in k zero now,0.0
+sriq4n,set red in q four now,set red in q four now,0.0
+sriq5s,set red in q five soon,set right in q five soon,0.16666666666666666
+sriq6p,set red in q six please,set rate in q six please,0.16666666666666666
+sriq7a,set red in q seven again,set right in q seven again,0.16666666666666666
+srix8n,set red in x eight now,i set red on x eight now,0.3333333333333333
+srix9s,set red in x nine soon,set ready next nine soon,0.5
+sriy1a,set red in y one again,set right and why one again,0.5
+sriyzp,set red in y zero please,set the rate in one zero please,0.5
+srwe8n,set red with e eight now,set red with e eight now,0.0
+srwe9s,set red with e nine soon,set fred with e nine soon,0.16666666666666666
+srwf1a,set red with f one again,set red with f one again,0.0
+srwfzp,set red with f zero please,set free with fzero please,0.5
+srwl2n,set red with l two now,set red with l two now,0.0
+srwl3s,set red with l three soon,set red with l three soon,0.0
+srwl4p,set red with l four please,set red with f four please,0.16666666666666666
+srwl5a,set red with l five again,set red with l five again,0.0
+srwr6n,set red with r six now,seth rogen with our six now,0.5
+srwr7s,set red with r seven soon,set red with r seven soon,0.0
+srwr8p,set red with r eight please,set red with r eight please,0.0
+srwr9a,set red with r nine again,i set red with r nine again,0.16666666666666666
+srwz1s,set red with z one soon,set right with the zed ones soon,0.6666666666666666
+srwz2p,set red with z two please,set red with z two please,0.0
+srwz3a,set red with z three again,set right with the dead three again,0.5
+srwzzn,set red with z zero now,set red with set zero now,0.16666666666666666
+swae6n,set white at e six now,settle to the east six now,0.6666666666666666
+swae7s,set white at e seven soon,set white to e seven soon,0.16666666666666666
+swae8p,set white at e eight please,set white at e eight please,0.0
+swae9a,set white at e nine again,set white at e nine again,0.0
+swal1s,set white at l one soon,said white at l one soon,0.16666666666666666
+swal2p,set white at l two please,set white at l two please,0.0
+swal3a,set white at l three again,set white at l three again,0.0
+swalzn,set white at l zero now,set white at l zero now,0.0
+swar4n,set white at r four now,set white at our fall now,0.3333333333333333
+swar5s,set white at r five soon,said white at r five soon,0.16666666666666666
+swar6p,set white at r six please,set white at r six please,0.0
+swar7a,set white at r seven again,set white at r seven again,0.0
+sway8n,set white at y eight now,set white at y eight now,0.0
+sway9s,set white at y nine soon,set white to the y nine soon,0.3333333333333333
+swaz1a,set white at z one again,set white to z one again,0.16666666666666666
+swazzp,set white at z zero please,set one at zero please,0.3333333333333333
+swbf1s,set white by f one soon,set white by f one soon,0.0
+swbf2p,set white by f two please,set white by f two please,0.0
+swbf3a,set white by f three again,set white by f three again,0.0
+swbfzn,set white by f zero now,set what by fzero now,0.5
+swbl4n,set white by l four now,said white by el four now,0.3333333333333333
+swbl5s,set white by l five soon,set white by l five soon,0.0
+swbl6p,set white by l six please,set white by l six please,0.0
+swbl7a,set white by l seven again,set white by l seven again,0.0
+swbr8n,set white by r eight now,said white by rite now,0.5
+swbr9s,set white by r nine soon,set white by arnold soon,0.3333333333333333
+swbs1a,set white by s one again,set white by s one again,0.0
+swbszp,set white by s zero please,set white by as aero please,0.3333333333333333
+swbz2n,set white by z two now,set white by zed two now,0.16666666666666666
+swbz3s,set white by z three soon,set white to my z three soon,0.3333333333333333
+swbz4p,set white by z four please,set white by z four please,0.0
+swbz5a,set white by z five again,set white by z five again,0.0
+swie2n,set white in e two now,set white in it too now,0.3333333333333333
+swie3s,set white in e three soon,set to white in e three soon,0.16666666666666666
+swie4p,set white in e four please,set white to e four please,0.16666666666666666
+swie5a,set white in e five again,set white to e five,0.3333333333333333
+swik6n,set white in k six now,i said why im in k six now,0.6666666666666666
+swik7s,set white in k seven soon,set to youtube in case seven soon,0.5
+swik8p,set white in k eight please,set white and k eight please,0.16666666666666666
+swik9a,set white in k nine again,set whites in k nine again,0.16666666666666666
+swir1s,set white in r one soon,set white in our one soon,0.16666666666666666
+swir2p,set white in r two please,set white in r two please,0.0
+swir3a,set white in r three again,set white to three again,0.3333333333333333
+swirzn,set white in r zero now,set white in r zero now,0.0
+swiy4n,set white in y four now,set white and y four now,0.16666666666666666
+swiy5s,set white in y five soon,set white on wifi soon,0.5
+swiy6p,set white in y six please,set white in white six please,0.16666666666666666
+swiy7a,set white in y seven again,set white in white seven again,0.16666666666666666
+swwf4n,set white with f four now,set white with f four now,0.0
+swwf5s,set white with f five soon,set white with f five soon,0.0
+swwf6p,set white with f six please,set wide with f six please,0.16666666666666666
+swwf7a,set white with f seven again,set white with f seven again,0.0
+swwl8n,set white with l eight now,set white with elite now,0.3333333333333333
+swwl9s,set white with l nine soon,set white with l nine soon,0.0
+swwm1a,set white with m one again,set white with m one again,0.0
+swwmzp,set white with m zero please,set white with m zero please,0.0
+swws2n,set white with s two now,set wide with s two now,0.16666666666666666
+swws3s,set white with s three soon,set to watch with s three soon,0.3333333333333333
+swws4p,set white with s four please,set white with s four please,0.0
+swws5a,set white with s five again,set white with s five again,0.0
+swwz6n,set white with z six now,set white with set six now,0.16666666666666666
+swwz7s,set white with z seven soon,sets white with set seven soon,0.3333333333333333
+swwz8p,set white with z eight please,set white with set eight please,0.16666666666666666
+swwz9a,set white with z nine again,set white with z nine again,0.0

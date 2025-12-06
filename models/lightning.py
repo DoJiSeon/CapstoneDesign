@@ -175,7 +175,7 @@ class ModelModule_LLM(LightningModule):
         # initialize the full model from the checkpoint for inference.
         if args.pretrained_model_path:
             ckpt = torch.load(args.pretrained_model_path)
-            self.model.load_state_dict(ckpt)
+            self.model.load_state_dict(ckpt, strict=False)
             
         
     def configure_optimizers(self):
@@ -186,18 +186,47 @@ class ModelModule_LLM(LightningModule):
         return [optimizer], [scheduler]
         
     def training_step(self, batch, batch_idx):
-        train_loss = self.model(batch, is_trainval = True)[0]
-        
-        batch_size = batch["tokens"].shape[0]
-
-        self.log("loss", train_loss, on_step=True, on_epoch=True, batch_size=batch_size)
-        
-        batch_sizes = self.all_gather(batch_size)
-        
-        train_loss *= batch_sizes.size(0) / batch_sizes.sum()
-        self.log("monitoring_step", torch.tensor(self.global_step, dtype=torch.float32))
-        return train_loss
+        try:
+            # 1. 모델 실행
+            output = self.model(batch, is_trainval=True)
             
+            # 2. [핵심 수정] Loss 값 안전하게 꺼내기
+            # 원래 코드의 [0] 방식은 Llama 모델에서 안 먹힙니다.
+            if hasattr(output, 'loss'):
+                train_loss = output.loss  # 객체 안에 있는 .loss를 꺼냄
+            elif isinstance(output, tuple):
+                train_loss = output[0]    # 튜플이면 첫 번째꺼 꺼냄
+            else:
+                train_loss = output       # 그냥 텐서면 그대로 씀
+
+            # 3. 원래 코드의 로직 유지 (배치 사이즈 계산 및 로깅)
+            batch_size = batch["tokens"].shape[0]
+
+            # 'loss'와 'train_loss' 둘 다 기록 (WandB 확인용)
+            self.log("loss", train_loss, on_step=True, on_epoch=True, batch_size=batch_size, prog_bar=True)
+            self.log("train_loss", train_loss, on_step=True, on_epoch=True, batch_size=batch_size)
+            
+            # 분산 학습(DDP)시 배치 크기 보정 로직 (원래 코드 유지)
+            # (단, 싱글 GPU면 batch_sizes.size(0)은 1이 되므로 영향 없음)
+            if self.trainer.num_devices > 1:
+                batch_sizes = self.all_gather(batch_size)
+                train_loss_scaled = train_loss * (batch_sizes.size(0) / batch_sizes.sum())
+            else:
+                train_loss_scaled = train_loss
+
+            # 4. [중요] 모니터링 지표 저장
+            # 원래 코드는 global_step을 저장했는데, 체크포인트 저장을 위해서는 'loss'가 더 유용합니다.
+            self.log("monitoring_step", train_loss_scaled)
+            
+            return train_loss_scaled
+
+        # 5. [필수] 짧은 비디오 에러 방지 (Skiping)
+        except RuntimeError as e:
+            if "Kernel size can't be greater than actual input size" in str(e):
+                print(f"\n⚠️ [SKIP] 짧은 비디오 데이터 발견! 학습을 건너뜁니다. (Batch: {batch_idx})")
+                return None 
+            else:
+                raise e
         
     def validation_step(self, batch, batch_idx):
         val_loss = self.model(batch, is_trainval = True)[0]
@@ -226,3 +255,15 @@ class ModelModule_LLM(LightningModule):
         
     def on_test_epoch_end(self):
         self.log("wer", self.total_edit_distance / self.total_length)
+
+    # [추가할 코드] 저장할 때 뚱뚱한 베이스 모델은 빼고, 학습된 LoRA만 남기기
+    def on_save_checkpoint(self, checkpoint):
+        # state_dict(모든 파라미터) 중에서 'lora', 'video_proj' 등이 들어간 것만 필터링
+        # (modules_to_save는 Peft 라이브러리가 지정한 추가 저장 모듈들)
+        keys_to_keep = [k for k in checkpoint['state_dict'].keys() 
+                        if "lora" in k or "modules_to_save" in k or "video_proj" in k]
+        
+        new_state_dict = {k: checkpoint['state_dict'][k] for k in keys_to_keep}
+        
+        # 필터링된 가벼운 딕셔너리로 교체
+        checkpoint['state_dict'] = new_state_dict

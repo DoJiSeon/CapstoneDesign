@@ -1,133 +1,98 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-UADF (Unified Audio-Decoder Fusion) Block for Llama-AVSR
-[Updated] BFloat16 Safety & Debugging Added
-"""
 
 import torch
 from torch import nn
-import torch.nn.functional as F
 
 
-class UADFBlock(nn.Module):
+class UADFLiteGate(nn.Module):
     """
-    UADF Block: Dynamic weighted fusion of audio and video features
+    UADF-lite: encoder feature level에서 audio / video를 부드럽게 섞는 게이트 블록
+
+    - audio_features: [B, Ta, H]
+    - video_features: [B, Tv, H]
+    - return: fused_features: [B, T_min, H]  (T_min = min(Ta, Tv))
+
+    특징:
+    - audio를 base로 두고, video는 학습 가능한 비율로만 살짝 더함
+    - 길이 안 맞으면 더 짧은 길이에 맞춰 'trim' (interpolate X)
     """
-    
-    def __init__(self, hidden_size, fusion_method='uncertainty', temperature=1.0):
+
+    def __init__(
+        self,
+        hidden_size: int,
+        max_video_ratio: float = 0.3,
+        per_channel: bool = False,
+    ):
+        """
+        Args:
+            hidden_size: feature dimension H
+            max_video_ratio: video 비율의 상한 (예: 0.3이면 audio + 0~0.3 * video)
+            per_channel: True면 채널별 gate, False면 스칼라 gate 하나
+        """
         super().__init__()
         self.hidden_size = hidden_size
-        self.fusion_method = fusion_method
-        self.temperature = temperature
-        self.sigmoid = nn.Sigmoid()
-        self.norm = nn.LayerNorm(hidden_size)
-        
-        if fusion_method == 'attention':
-            self.attention = nn.MultiheadAttention(
-                embed_dim=hidden_size,
-                num_heads=8,
-                batch_first=True
-            )
+        self.max_video_ratio = max_video_ratio
+        self.per_channel = per_channel
 
-    def compute_uncertainty(self, features):
-        """
-        Compute uncertainty (entropy) of features
-        [Safety Fix] Performs calculation in Float32 to avoid NaN in BFloat16
-        """
-        # 1. 입력 타입을 기억해둠
-        original_dtype = features.dtype
-        
-        # 2. 정밀한 계산(Entropy)을 위해 Float32로 변환 (BFloat16 NaN 방지)
-        features = features.to(dtype=torch.float32)
-
-        # Normalize features and compute probability distribution
-        features_norm = F.normalize(features, p=2, dim=-1)      
-
-        probs = F.softmax(features_norm / self.temperature, dim=-1)
-        
-        eps = 1e-10
-        log_probs = torch.log(probs + eps)
-        entropy = -torch.sum(probs * log_probs, dim=-1)
-        
-        # 3. 원래 타입(BFloat16 등)으로 복구
-        return entropy.to(dtype=original_dtype)
-    
-    def align_sequences(self, audio_features, video_features):
-        """
-        Align audio and video sequences to the same length
-        [Safety Fix] Interpolate handles BFloat16 poorly, casting to Float32 temporarily
-        """
-        batch_size = audio_features.shape[0]
-        audio_len = audio_features.shape[1]
-        video_len = video_features.shape[1]
-        
-        if audio_len == video_len:
-            return audio_features, video_features
-
-        # Interpolate를 위해 잠시 Float32로 변환
-        original_dtype = audio_features.dtype
-        audio_features = audio_features.to(dtype=torch.float32)
-        video_features = video_features.to(dtype=torch.float32)
-
-        if audio_len > video_len:
-            # (Batch, Time, Dim) -> (Batch, Dim, Time) for interpolate
-            audio_features = F.interpolate(
-                audio_features.transpose(1, 2),
-                size=video_len,
-                mode='linear',
-                align_corners=False
-            ).transpose(1, 2)
+        # gate 초기값 0 → sigmoid(0)=0.5 → 0.5 * max_video_ratio 정도에서 시작
+        if per_channel:
+            self.gate = nn.Parameter(torch.zeros(hidden_size))   # [H]
         else:
-            video_features = F.interpolate(
-                video_features.transpose(1, 2),
-                size=audio_len,
-                mode='linear',
-                align_corners=False
-            ).transpose(1, 2)
-        
-        # 원래 타입(BFloat16)으로 복구
-        return audio_features.to(dtype=original_dtype), video_features.to(dtype=original_dtype)
-    
+            self.gate = nn.Parameter(torch.zeros(1))             # scalar
+
+        self.norm = nn.LayerNorm(hidden_size)
+
+    def _align_time(self, audio_features, video_features):
+        """
+        단순 시간축 정렬: 더 짧은 길이에 맞게 둘 다 잘라버림
+        (너무 공격적인 interpolate 대신, 안전한 trim)
+        """
+        Ta = audio_features.size(1)
+        Tv = video_features.size(1)
+        T = min(Ta, Tv)
+
+        if Ta != T:
+            audio_features = audio_features[:, :T, :]
+        if Tv != T:
+            video_features = video_features[:, :T, :]
+
+        return audio_features, video_features
+
     def forward(self, audio_features, video_features):
         """
-        Forward pass: Fuse audio and video features dynamically
+        audio_features: [B, Ta, H]
+        video_features: [B, Tv, H]
         """
-        # 입력 타입 강제 일치 (Safety Check)
+        # dtype 맞추기
         if audio_features.dtype != video_features.dtype:
-            target_dtype = video_features.dtype
-            audio_features = audio_features.to(dtype=target_dtype)
+            video_features = video_features.to(dtype=audio_features.dtype)
 
-        # 1. 시퀀스 길이 맞추기 (Interpolate)
-        audio_features, video_features = self.align_sequences(
-            audio_features, video_features
-        )
-        
-        if self.fusion_method == 'uncertainty':
-            # 2. 불확실성(Uncertainty) 계산 (Float32 내부 처리)
-            video_uncertainty = self.compute_uncertainty(video_features)
-            
-            # 3. 가중치 계산
-            weight = self.sigmoid(video_uncertainty) - 0.5
-            weight = weight.unsqueeze(-1) 
-            
-            # 4. 퓨전 (Fusion)
-            # fused = Video + Weight * Audio
-            fused_features = video_features + weight * audio_features
-        
-            # 5. 정규화 (LayerNorm)
-            # Residual Connection 포함
-            fused_features = self.norm(fused_features + video_features)
-            
+        # 길이 정렬
+        audio_features, video_features = self._align_time(audio_features, video_features)
+
+        # gate → lambda (0 ~ max_video_ratio)
+        gate = torch.sigmoid(self.gate)  # [1] or [H]
+        if self.per_channel:
+            # [H] → [1, 1, H] → [B, T, H] 에 자동 브로드캐스트
+            lam = gate.view(1, 1, -1) * self.max_video_ratio
         else:
-            raise ValueError(f"Unknown fusion method: {self.fusion_method}")
-        
-        return fused_features
+            # scalar → [1, 1, 1]
+            lam = gate.view(1, 1, 1) * self.max_video_ratio
+
+        # audio base + video 보정
+        fused = audio_features + lam * video_features
+        fused = self.norm(fused)
+
+        return fused
 
 
-def create_uadf_block(hidden_size, fusion_method='uncertainty', temperature=1.0):
-    return UADFBlock(
+def create_uadf_block(hidden_size, max_video_ratio: float = 0.3, per_channel: bool = False):
+    """
+    AVSR_LLMs에서 기존 UADFBlock 생성하던 자리에 그대로 쓸 수 있는 helper
+    """
+    return UADFLiteGate(
         hidden_size=hidden_size,
-        fusion_method=fusion_method,
-        temperature=temperature
+        max_video_ratio=0.3,  # 비디오 최대 30%까지만 반영
+        per_channel=False
     )

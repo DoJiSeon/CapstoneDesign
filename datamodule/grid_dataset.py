@@ -1,209 +1,176 @@
 import os
-import random
-from typing import Iterable, List, Optional, Sequence, Tuple
-
+import glob
 import torch
 import torchaudio
 import torchvision
+from torch.utils.data import Dataset
+from torchvision.transforms import functional as F
+import random
 
-
-def cut_or_pad(data: torch.Tensor, size: int, dim: int = 0) -> torch.Tensor:
-    """
-    Pads or trims `data` along `dim` to match `size`.
-    """
-    if data.size(dim) < size:
-        padding = size - data.size(dim)
-        pad_dims: Tuple[int, ...] = (0, 0, 0, padding)
-        data = torch.nn.functional.pad(data, pad_dims, "constant")
-    elif data.size(dim) > size:
-        data = data.narrow(dim, 0, size)
-    return data
-
-
-def load_video(path: str) -> torch.Tensor:
-    """
-    Returns video tensor with shape (T, C, H, W).
-    """
-    video, _, _ = torchvision.io.read_video(path, pts_unit="sec", output_format="THWC")
-    return video.permute(0, 3, 1, 2)
-
-
-def load_audio(path: str) -> Tuple[torch.Tensor, int]:
-    """
-    Returns audio tensor with shape (T, 1) and its sample rate.
-    """
-    waveform, sample_rate = torchaudio.load(path, normalize=True)
-    return waveform.transpose(1, 0), sample_rate
-
-
-class GRIDDataset(torch.utils.data.Dataset):
-    """
-    GRID dataset loader.
-
-    Expected folder structure:
-        root_dir/
-            ├── s1/                     (video .mpg)
-            ├── audio_25k/s1/           (audio .wav)
-            └── alignments/s1/          (alignment .align)
-
-    By default only speaker s1 is used. Additional speakers can be passed via `speakers`.
-    """
-
+class GRIDDataset(Dataset):
     def __init__(
         self,
-        root_dir: str,
-        modality: str = "audiovisual",
-        split: Optional[str] = None,
-        split_ratio: Sequence[float] = (0.8, 0.1, 0.1),
-        speakers: Optional[Iterable[str]] = None,
-        max_samples: Optional[int] = None,
-        shuffle: bool = False,
-        seed: Optional[int] = None,
-        video_transform: Optional[torch.nn.Module] = None,
-        audio_transform: Optional[torch.nn.Module] = None,
-        rate_ratio: int = 640,
-    ) -> None:
-        super().__init__()
-        self.root_dir = os.path.abspath(root_dir)
+        root_dir,
+        modality="audiovisual",
+        split="train",
+        split_ratio=[0.9, 0.1, 0.0], # s1 전용 테스트를 위해 9:1 설정 (Test는 일단 0)
+        max_samples=None,
+        shuffle=True,
+        transform=None, # 외부에서 transform을 받을 수도 있음
+    ):
+        self.root_dir = root_dir
         self.modality = modality
-        self.video_transform = video_transform
-        self.audio_transform = audio_transform
-        self.rate_ratio = rate_ratio
-
-        self.speakers = list(speakers) if speakers else ["s1"]
         self.split = split
-        self.split_ratio = split_ratio
-        self.max_samples = max_samples
-        self.shuffle = shuffle
-        self.seed = seed
+        
+        # [설정] GRID 데이터셋 전처리 파라미터 (inference_avsr.py 참고)
+        self.video_size = 88  # 모델 입력 사이즈
+        self.audio_sample_rate = 16000 # Whisper 등 대부분 모델 표준
+        
+        # 1. 데이터 로드 (경로 문제 해결)
+        self.samples = self._load_samples(root_dir)
+        
+        if len(self.samples) == 0:
+             raise RuntimeError(f"No GRID samples found in {root_dir}. Check if 's1_processed' exists.")
 
-        if split is not None:
-            if split not in {"train", "val", "test"}:
-                raise ValueError(f"Unsupported split: {split}")
-            if len(split_ratio) != 3 or abs(sum(split_ratio) - 1.0) > 1e-6:
-                raise ValueError("split_ratio must contain three values summing to 1.0")
+        # 2. 셔플 및 분할
+        if shuffle:
+            random.seed(42)
+            random.shuffle(self.samples)
+            
+        total_len = len(self.samples)
+        train_len = int(total_len * split_ratio[0])
+        val_len = int(total_len * split_ratio[1])
+        # 나머지는 test_len
 
-        self._video_dirs = {
-            speaker: os.path.join(self.root_dir, speaker) for speaker in self.speakers
-        }
-        self._audio_dirs = {
-            speaker: os.path.join(self.root_dir, "audio_25k", speaker)
-            for speaker in self.speakers
-        }
-        self._align_dirs = {
-            speaker: os.path.join(self.root_dir, "alignments", speaker)
-            for speaker in self.speakers
-        }
+        if split == "train":
+            self.samples = self.samples[:train_len]
+        elif split == "val":
+            self.samples = self.samples[train_len : train_len + val_len]
+        elif split == "test":
+            self.samples = self.samples[train_len + val_len :]
+            
+        if max_samples is not None:
+            self.samples = self.samples[:max_samples]
 
-        self.samples: List[Tuple[str, str]] = self._collect_samples()
+        print(f"[{split.upper()}] Loaded {len(self.samples)} samples from {root_dir}")
 
-        if not self.samples:
-            raise RuntimeError(
-                f"No GRID samples found under {self.root_dir} for speakers {self.speakers}"
-            )
+    def _load_samples(self, root_dir):
+        """
+        /local_datasets/GRID_srt/data 아래의 s1_processed 등을 자동으로 찾음.
+        """
+        samples = []
+        # root_dir 안에 있는 모든 폴더 검색 (s1, s1_processed 등)
+        speaker_dirs = glob.glob(os.path.join(root_dir, "s*"))
+        
+        for spk_dir in speaker_dirs:
+            spk_name = os.path.basename(spk_dir)
 
-    def _collect_samples(self) -> List[Tuple[str, str]]:
-        all_samples: List[Tuple[str, str]] = []
-        for speaker in self.speakers:
-            video_dir = self._video_dirs[speaker]
-            if not os.path.isdir(video_dir):
+            if "s10" in spk_name: 
                 continue
 
-            ids = []
-            for filename in os.listdir(video_dir):
-                base, ext = os.path.splitext(filename)
-                if ext.lower() in {".mpg", ".mp4"}:
-                    ids.append(base)
+            align_dir = os.path.join(spk_dir, "align")
+            
+            if not os.path.exists(align_dir):
+                continue    
+                
+            # .align 파일 찾기
+            align_files = glob.glob(os.path.join(align_dir, "*.align"))
+            
+            for align_path in align_files:
+                file_id = os.path.basename(align_path).replace(".align", "")
+                
+                # 비디오 경로 (.mpg)
+                vid_path = os.path.join(spk_dir, f"{file_id}.mpg")
+                if not os.path.exists(vid_path):
+                    vid_path = os.path.join(spk_dir, f"{file_id}.mp4")
+                
+                # 파일이 존재하고 정답 텍스트가 있으면 리스트에 추가
+                if os.path.exists(vid_path):
+                    text = self._load_align(align_path)
+                    if text:
+                        samples.append({
+                            "video_path": vid_path,
+                            "audio_path": vid_path, # 오디오도 같은 파일 사용
+                            "text": text,
+                            "id": file_id,
+                            "speaker": spk_name
+                        })
+        return samples
 
-            ids.sort()
-            for sample_id in ids:
-                all_samples.append((speaker, sample_id))
+    def _load_align(self, align_path):
+        words = []
+        try:
+            with open(align_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    parts = line.strip().split()
+                    if len(parts) >= 3:
+                        word = parts[2]
+                        if word not in ["sil", "sp"]:
+                            words.append(word)
+            return " ".join(words).lower()
+        except:
+            return None
 
-        if self.split is None:
-            subset = all_samples
-        else:
-            n_total = len(all_samples)
-            n_train = int(n_total * self.split_ratio[0])
-            n_val = int(n_total * self.split_ratio[1])
-
-            if self.split == "train":
-                subset = all_samples[:n_train] or all_samples
-            elif self.split == "val":
-                start = n_train
-                end = start + n_val
-                subset = all_samples[start:end] or all_samples[start:start + 1]
-            else:  # test split
-                start = n_train + n_val
-                subset = all_samples[start:] or all_samples[-1:]
-
-        if self.shuffle:
-            rng = random.Random(self.seed)
-            rng.shuffle(subset)
-
-        if self.max_samples is not None:
-            subset = subset[: self.max_samples]
-
-        return subset
-
-    def _alignment_path(self, speaker: str, sample_id: str) -> str:
-        return os.path.join(self._align_dirs[speaker], f"{sample_id}.align")
-
-    def _audio_path(self, speaker: str, sample_id: str) -> str:
-        return os.path.join(self._audio_dirs[speaker], f"{sample_id}.wav")
-
-    def _video_path(self, speaker: str, sample_id: str) -> str:
-        # Prefer .mpg, fall back to .mp4 if needed.
-        mpg_path = os.path.join(self._video_dirs[speaker], f"{sample_id}.mpg")
-        if os.path.isfile(mpg_path):
-            return mpg_path
-        return os.path.join(self._video_dirs[speaker], f"{sample_id}.mp4")
-
-    @staticmethod
-    def _load_alignment(path: str) -> str:
-        words: List[str] = []
-        with open(path, "r", encoding="utf-8") as handle:
-            for line in handle:
-                parts = line.strip().split()
-                if len(parts) == 3:
-                    _, _, word = parts
-                    if word != "sil":
-                        words.append(word)
-        return " ".join(words)
-
-    def __getitem__(self, index: int) -> dict:
-        speaker, sample_id = self.samples[index]
-
-        need_video = self.modality in {"video", "audiovisual", "audiovisual_avhubert"}
-        need_audio = self.modality in {"audio", "audiovisual", "audiovisual_avhubert"}
-
-        video = None
-        if need_video:
-            video = load_video(self._video_path(speaker, sample_id))
-            if self.video_transform is not None:
-                video = self.video_transform(video)
-
-        audio = None
-        if need_audio:
-            audio, sample_rate = load_audio(self._audio_path(speaker, sample_id))
-            if sample_rate != 25000:
-                audio = torchaudio.functional.resample(audio.t(), sample_rate, 25000).t()
-
-            if video is not None:
-                expected_audio_frames = video.size(0) * self.rate_ratio
-                audio = cut_or_pad(audio, expected_audio_frames, dim=0)
-
-            if self.audio_transform is not None:
-                audio = self.audio_transform(audio)
-
-        tokens = self._load_alignment(self._alignment_path(speaker, sample_id))
-
-        sample = {"tokens": tokens}
-        if video is not None:
-            sample["video"] = video
-        if audio is not None:
-            sample["audio"] = audio
-        return sample
-
-    def __len__(self) -> int:
+    def __len__(self):
         return len(self.samples)
 
+    def __getitem__(self, idx):
+        sample = self.samples[idx]
+        
+        # 1. Video Loading & Transform
+        # inference_avsr.py의 로직을 참고하여 텐서로 변환
+        video = self.load_video(sample["video_path"])
+        
+        # 2. Audio Loading & Transform
+        # .mpg에서 직접 오디오 로드 및 리샘플링
+        audio = self.load_audio(sample["audio_path"])
+
+        return {
+            "video": video,     # (T, C, H, W) Tensor
+            "audio": audio,     # (T_audio,) Tensor
+            "text": sample["text"], # Raw Text (Tokenizer는 train.py에서 처리)
+            "tokens": sample["text"], # 호환성을 위해 키 추가
+            "id": sample["id"]
+        }
+
+    def load_video(self, path):
+        """
+        비디오를 로드하고 (T, H, W, C) -> (T, C, H, W), Grayscale, Resize 수행
+        """
+        # pts_unit='sec'로 로드
+        video, _, _ = torchvision.io.read_video(path, pts_unit="sec", output_format="TCHW")
+        
+        # 정규화 (0~255 -> 0~1)
+        video = video.float() / 255.0
+        
+        # Grayscale 변환 (AV-Hubert 등은 보통 흑백을 씁니다. 컬러면 이 줄 주석 처리)
+        video = F.rgb_to_grayscale(video)
+        
+        # Resize (88x88) - inference_avsr.py 참고
+        video = F.resize(video, (self.video_size, self.video_size))
+        
+        # (T, C, H, W) 형태 확인
+        return video
+
+    def load_audio(self, path):
+        """
+        .mpg에서 오디오 로드 후 16kHz로 리샘플링 및 모노 변환
+        """
+        try:
+            waveform, sample_rate = torchaudio.load(path)
+            
+            # 스테레오 -> 모노 변환
+            if waveform.shape[0] > 1:
+                waveform = torch.mean(waveform, dim=0, keepdim=True)
+            
+            # 리샘플링 (원본 SR -> 16000Hz)
+            if sample_rate != self.audio_sample_rate:
+                resampler = torchaudio.transforms.Resample(sample_rate, self.audio_sample_rate)
+                waveform = resampler(waveform)
+                
+            return waveform.squeeze() # (T,) 형태로 반환
+            
+        except Exception as e:
+            print(f"Error loading audio from {path}: {e}")
+            # 에러 시 빈 텐서 혹은 0으로 채운 텐서 반환 (학습 중단 방지)
+            return torch.zeros(16000)

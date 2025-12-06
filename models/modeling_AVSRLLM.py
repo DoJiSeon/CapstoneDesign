@@ -16,7 +16,8 @@ from transformers import WhisperModel, LlamaForCausalLM, AutoFeatureExtractor, W
 import fairseq
 from av_hubert.avhubert.hubert_asr import AVHubertSeq2Seq, AVHubertSeq2SeqConfig
 from av_hubert.avhubert.hubert_lora import AVHubertModel_lora
-from .uadf_block import UADFBlock
+from .uadf_block import create_uadf_block
+
 import math
 
 IGNORE_INDEX = -100
@@ -193,13 +194,16 @@ class AVSR_LLMs(nn.Module):
         # UADF 블록 초기화 (audiovisual 모달리티이고 UADF를 사용하는 경우)
         self.uadf_block = None
         if self.use_uadf:
-            self.uadf_block = UADFBlock(
+            # UADF-lite: feature gating
+            self.uadf_block = create_uadf_block(
                 hidden_size=hidden_size,
-                fusion_method=uadf_fusion_method,
-                temperature=uadf_temperature
+                max_video_ratio=0.3,      # 처음엔 0.3 정도 추천 (필요하면 0.1~0.5 사이에서 조정)
+                per_channel=False,        # True로 하면 채널별 gate (조금 더 표현력↑, 파라미터↑)
             )
             print(f"✅ UADF 블록 초기화 완료 (fusion_method={uadf_fusion_method}, temperature={uadf_temperature})")
-        
+        else:
+            self.uadf_block = None
+
         self._unfreeze_PETF(unfrozen_modules)
         
         
@@ -490,44 +494,134 @@ class AVSR_LLMs(nn.Module):
             
             return audio_enc, video_enc
     
-    def encode_video(self, videos):
+    # def encode_video(self, videos):
             
-        video_enc = self.video_encoder.extract_finetune(source={'video': torch.reshape(videos,(-1,videos.shape[2],videos.shape[1],videos.shape[3],videos.shape[-1])),'audio': None})[0]
-        if self.downsample_ratio_video != 1:
-            video_enc = [video_enc[:, x:x + self.downsample_ratio_video, :].view(video_enc.shape[0], 1, -1) for x in range(0, video_enc.shape[1], self.downsample_ratio_video)]
-            video_enc = torch.stack(video_enc, dim=1).squeeze(2)
+    #     video_enc = self.video_encoder.extract_finetune(source={'video': torch.reshape(videos,(-1,videos.shape[2],videos.shape[1],videos.shape[3],videos.shape[-1])),'audio': None})[0]
+    #     if self.downsample_ratio_video != 1:
+    #         video_enc = [video_enc[:, x:x + self.downsample_ratio_video, :].view(video_enc.shape[0], 1, -1) for x in range(0, video_enc.shape[1], self.downsample_ratio_video)]
+    #         video_enc = torch.stack(video_enc, dim=1).squeeze(2)
             
+    #     return video_enc
+    def encode_video(self, video_inputs):
+        # 비디오 모드가 아니면 그냥 None
+        if self.modality not in ["video", "audiovisual"]:
+            return None
+
+        # 0. 입력 차원 정리: [B, T, C, H, W] 가정, 아니면 맞춰 주기
+        if video_inputs.dim() == 4:
+            # [T, C, H, W] → [1, T, C, H, W]
+            video_inputs = video_inputs.unsqueeze(0)
+
+        if video_inputs.dim() != 5:
+            raise ValueError(f"Unexpected video_inputs shape: {video_inputs.shape}")
+
+        # 1. [B, T, C, H, W] → [B, C, T, H, W] (AV-HuBERT가 기대하는 형태)
+        video_inputs_transposed = video_inputs.permute(0, 2, 1, 3, 4)
+
+        # 🔍 여기서 AV-HuBERT에 실제로 들어가는 텐서의 time 축을 직접 본다
+        B, C, T, H, W = video_inputs_transposed.shape
+
+        # 디버그용으로 한 번 찍어보고 싶으면:
+        # print("encode_video before AV-HuBERT:", video_inputs_transposed.shape, flush=True)
+
+        # 2. AV-HuBERT frontend3D의 conv3d kernel: (5 x 7 x 7)
+        #    → time 축(T)이 최소 5 이상이어야 함
+        min_T = 5
+        if T < min_T:
+            pad_frames = min_T - T
+            # 마지막 프레임을 복제해서 time 축(축 2)을 패딩
+            last = video_inputs_transposed[:, :, -1:, :, :]              # [B, C, 1, H, W]
+            pad = last.repeat(1, 1, pad_frames, 1, 1)                     # [B, C, pad_frames, H, W]
+            video_inputs_transposed = torch.cat([video_inputs_transposed, pad], dim=2)
+            T = min_T
+            print(f"[WARN] short video padded on time axis: padded to T={T}", flush=True)
+
+        # 3. Source / Mask 생성 (패딩 이후 길이 기준)
+        padding_mask = torch.zeros(
+            (video_inputs_transposed.shape[0], video_inputs_transposed.shape[2]),  # [B, T]
+            dtype=torch.bool,
+            device=video_inputs_transposed.device,
+        )
+        source = {"video": video_inputs_transposed, "audio": None}
+
+        # 4. AV-HuBERT 비디오 인코더로 특징 추출
+        encoder_out = self.video_encoder.extract_finetune(
+            source=source,
+            padding_mask=padding_mask,
+        )
+
+        if isinstance(encoder_out, tuple):
+            video_features = encoder_out[0]
+        elif isinstance(encoder_out, dict):
+            video_features = encoder_out["encoder_out"][0]
+        else:
+            video_features = encoder_out
+
+        # 5. 길이 보정 (downsample_ratio 맞추기 위한 패딩) — 기존 로직
+        B, T, D = video_features.shape
+        ratio = self.downsample_ratio_video
+        remainder = T % ratio
+
+        if remainder > 0:
+            pad_size = ratio - remainder
+            last_frame = video_features[:, -1:, :]
+            padding = last_frame.repeat(1, pad_size, 1)
+            video_features = torch.cat([video_features, padding], dim=1)
+
+        # 6. 다운샘플링만 하고 프로젝션은 하지 않음 (기존 로직 유지)
+        video_enc = []
+        for i in range(0, video_features.shape[1], self.downsample_ratio_video):
+            video_cat = video_features[:, i : i + self.downsample_ratio_video, :].reshape(
+                video_features.shape[0], -1
+            )
+            video_enc.append(video_cat)
+
+        video_enc = torch.stack(video_enc, dim=1)
         return video_enc
+
     
     def encode_audio(self, audios, max_len, is_trainval):
-            
+        # 1. 입력 오디오 정리: (Batch, Time) 형태로 통일
+        if audios.dim() == 3 and audios.shape[-1] == 1:
+            input_audio = audios.squeeze(-1)
+        else:
+            input_audio = audios
+
         if "whisper" in self.audio_encoder_name:
-            audios = audios.to(torch.float32)
+            # (기존 Whisper 코드 유지...)
+            input_audio = input_audio.to(torch.float32)
+            input_audio_np = input_audio.cpu().numpy()
+            audio_extract = self.audio_frontend(input_audio_np, return_tensors="pt", sampling_rate=16000).input_features
+            audio_enc = self.audio_encoder(audio_extract.cuda().to(torch.bfloat16)).last_hidden_state
             
-            audios = audios.cpu().numpy()
-            audio_extract = self.audio_frontend(audios.squeeze(-1), return_tensors="pt",sampling_rate =16000).input_features
-
-            # ...
-            # [해결] .half() 대신 모델의 dtype을 따라가도록 변경
-            target_dtype = self.audio_encoder.dtype
-            audio_enc = self.audio_encoder(audio_extract.cuda().to(target_dtype)).last_hidden_state
-
-
-            # Due to the 30s padding required by Whisper, we drop the tokens that correspond to the padded 0s. As 1s corresponds to 50 tokens, we truncate acccordingly.
-            audio_enc = audio_enc[:, 0: max(int(max_len/16000*50), 25) , :]
+            if isinstance(max_len, torch.Tensor): max_len_val = max_len.item()
+            else: max_len_val = max_len
+            audio_enc = audio_enc[:, 0: max(int(max_len_val/16000*50), 25) , :]
             
             if self.downsample_ratio_audio != 1:
                 audio_temp = audio_enc
                 audio_enc = [audio_temp[:, x:x + self.downsample_ratio_audio, :].view(audio_temp.shape[0], 1, -1) for x in range(0, audio_temp.shape[1], self.downsample_ratio_audio)]
                 rest = audio_temp.shape[1] % self.downsample_ratio_audio
-                if rest == 0:
-                    audio_enc = torch.stack(audio_enc, dim=1).squeeze(2) 
-                else: 
-                    audio_enc = torch.stack(audio_enc[:-1], dim=1).squeeze(2)
-                
-        # We also tested the case where we AV-HuBERT to process the audio.
+                if rest == 0: audio_enc = torch.stack(audio_enc, dim=1).squeeze(2) 
+                else: audio_enc = torch.stack(audio_enc[:-1], dim=1).squeeze(2)
+
+        # [수정] AV-Hubert 파트 (에러 해결 핵심)
         elif "av-hubert" in self.audio_encoder_name:
-            audio_temp = self.audio_encoder.extract_finetune(source={'audio': audios.transpose(1, 2), 'video': None})[0]
+            # 1. 오디오가 (Batch, Time)인지 확실히 체크
+            if input_audio.dim() == 3:
+                input_audio = input_audio.squeeze(-1)
+
+            # 2. Padding Mask 직접 생성 (에러 방지용)
+            # 0(False)은 패딩이 아님(유효함), 1(True)은 패딩임
+            # 여기서는 배치 사이즈 1이거나 패딩 처리가 되어있다고 가정하고 전체 유효(False)로 설정
+            padding_mask = torch.zeros_like(input_audio, dtype=torch.bool)
+
+            # 3. extract_finetune에 mask를 명시적으로 전달
+            source = {'audio': input_audio, 'video': None}
+            
+            # 여기서 padding_mask를 넣어줘야 내부 자동 생성 로직(에러 원인)을 건너뜀
+            res = self.audio_encoder.extract_finetune(source=source, padding_mask=padding_mask)
+            audio_temp = res[0]
             
             if self.downsample_ratio_audio != 1:
                 audio_enc = [audio_temp[:, x:x + self.downsample_ratio_audio, :].view(audio_temp.shape[0], 1, -1) for x in range(0, audio_temp.shape[1], self.downsample_ratio_audio)]
@@ -537,17 +631,14 @@ class AVSR_LLMs(nn.Module):
                 else:
                     audio_enc = torch.stack(audio_enc[:-1], dim=1).squeeze(2)
         
-        #WavLM audio encoder.
+        # WavLM Case (기존 코드 유지)
         else:
-            audio_temp = self.audio_encoder(audios.squeeze(-1))[0]
-            
+            audio_temp = self.audio_encoder(input_audio)[0]
             if self.downsample_ratio_audio != 1:
                 audio_enc = [audio_temp[:, x:x + self.downsample_ratio_audio, :].view(audio_temp.shape[0], 1, -1) for x in range(0, audio_temp.shape[1], self.downsample_ratio_audio)]
                 rest = audio_temp.shape[1] % self.downsample_ratio_audio
-                if rest == 0:
-                    audio_enc = torch.stack(audio_enc, dim=1).squeeze(2)
-                else:
-                    audio_enc = torch.stack(audio_enc[:-1], dim=1).squeeze(2)
+                if rest == 0: audio_enc = torch.stack(audio_enc, dim=1).squeeze(2)
+                else: audio_enc = torch.stack(audio_enc[:-1], dim=1).squeeze(2)
             else:
                 audio_enc = audio_temp
         
